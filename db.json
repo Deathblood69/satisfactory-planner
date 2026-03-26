@@ -1,0 +1,517 @@
+{
+  "categories": [
+    {
+      "id": "tier-0",
+      "name": "Tier 0 – Onboarding",
+      "parentId": null,
+      "order": 0
+    },
+    {
+      "id": "tier-1",
+      "name": "Tier 1",
+      "parentId": null,
+      "order": 1
+    },
+    {
+      "id": "tier-2",
+      "name": "Tier 2",
+      "parentId": null,
+      "order": 2
+    },
+    {
+      "id": "tier-3",
+      "name": "Tier 3",
+      "parentId": null,
+      "order": 3
+    },
+    {
+      "id": "tier-4",
+      "name": "Tier 4",
+      "parentId": null,
+      "order": 4
+    },
+    {
+      "id": "tier-5",
+      "name": "Tier 5",
+      "parentId": null,
+      "order": 5
+    },
+    {
+      "id": "tier-6",
+      "name": "Tier 6",
+      "parentId": null,
+      "order": 6
+    },
+    {
+      "id": "tier-7",
+      "name": "Tier 7",
+      "parentId": null,
+      "order": 7
+    },
+    {
+      "id": "tier-8",
+      "name": "Tier 8",
+      "parentId": null,
+      "order": 8
+    },
+    {
+      "id": "tier-9",
+      "name": "Tier 9",
+      "parentId": null,
+      "order": 9
+    }
+  ],
+  "tasks": [
+    {
+      "id": "01",
+      "title": "Tige de fer",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "02",
+      "title": "Plaque de fer",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "03",
+      "title": "Fil électrique",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "04",
+      "title": "Béton",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "05",
+      "title": "Câble",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "06",
+      "title": "Vis",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "07",
+      "title": "Biomasse",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "08",
+      "title": "Caterium - Filactif",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "09",
+      "title": "Quartz - Silice",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "10",
+      "title": "Quartz - Cristal de Quartz",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "11",
+      "title": "E.M.E - E.M.E. réanimée",
+      "completed": false,
+      "categoryId": "tier-0"
+    },
+    {
+      "id": "12",
+      "title": "Biocarburant solide",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "13",
+      "title": "Plaque de fer renforcée",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "14",
+      "title": "Rotor",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "15",
+      "title": "Tôle en cuivre",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "16",
+      "title": "Plaquage intelligent",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "17",
+      "title": "Cadre modulaire",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "18",
+      "title": "Caterium - Contrôleur d'IA",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "19",
+      "title": "Souffre - Poudre noire",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "20",
+      "title": "Souffre - Charbon compacté",
+      "completed": false,
+      "categoryId": "tier-2"
+    },
+    {
+      "id": "21",
+      "title": "Poutre en acier",
+      "completed": false,
+      "categoryId": "tier-3"
+    },
+    {
+      "id": "22",
+      "title": "Tuyau en acier",
+      "completed": false,
+      "categoryId": "tier-3"
+    },
+    {
+      "id": "23",
+      "title": "Structure polyvalente",
+      "completed": false,
+      "categoryId": "tier-3"
+    },
+    {
+      "id": "24",
+      "title": "Stator",
+      "completed": false,
+      "categoryId": "tier-4"
+    },
+    {
+      "id": "25",
+      "title": "Moteur",
+      "completed": false,
+      "categoryId": "tier-4"
+    },
+    {
+      "id": "26",
+      "title": "Poutre en béton armée",
+      "completed": false,
+      "categoryId": "tier-4"
+    },
+    {
+      "id": "27",
+      "title": "Plastique",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "28",
+      "title": "Caoutchouc",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "29",
+      "title": "Carburant",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "30",
+      "title": "Carburant conditionné",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "31",
+      "title": "Bidon vide",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "32",
+      "title": "Coke de pétrole",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "33",
+      "title": "Résine polymère",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "34",
+      "title": "Résidu de pétrole lourd",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "35",
+      "title": "Circuit imprimé",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "36",
+      "title": "Eau conditionnée",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "37",
+      "title": "Pétrole conditionné",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "38",
+      "title": "Résidu de pétrole lourd conditionné",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "39",
+      "title": "Biocarburant liquide conditionné",
+      "completed": false,
+      "categoryId": "tier-5"
+    },
+    {
+      "id": "40",
+      "title": "Ordinateur",
+      "completed": false,
+      "categoryId": "tier-6"
+    },
+    {
+      "id": "41",
+      "title": "Cadre modulaire lourd",
+      "completed": false,
+      "categoryId": "tier-6"
+    },
+    {
+      "id": "42",
+      "title": "Moteur modulaire",
+      "completed": false,
+      "categoryId": "tier-6"
+    },
+    {
+      "id": "43",
+      "title": "Quartz - Oscillateur à cristal",
+      "completed": false,
+      "categoryId": "tier-6"
+    },
+    {
+      "id": "44",
+      "title": "E.M.E. - Fluctuateur",
+      "completed": false,
+      "categoryId": "tier-6"
+    },
+    {
+      "id": "45",
+      "title": "Solution d'alumine",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "46",
+      "title": "Solution d'alumine conditionnée",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "47",
+      "title": "Déchet d'aluminium",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "48",
+      "title": "Lingot d'aluminium",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "49",
+      "title": "Tôle d'aluminium en alliage Alclad",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "50",
+      "title": "Boîtier en aluminium",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "51",
+      "title": "Acide sulfurique",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "52",
+      "title": "Acide sulfurique conditionné",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "53",
+      "title": "Batterie",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "54",
+      "title": "Unité de contrôle radio",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "55",
+      "title": "Super ordinateur",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "56",
+      "title": "Système directeur d'assemblage",
+      "completed": false,
+      "categoryId": "tier-7"
+    },
+    {
+      "id": "57",
+      "title": "Cellule d'uranium",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "58",
+      "title": "Tige de contrôle électromagnétique",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "59",
+      "title": "Barre de combustible nucléaire",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "60",
+      "title": "Générateur de champ magnétique",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "61",
+      "title": "Réservoir de fluide liquide",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "62",
+      "title": "Azote gazeux conditionné",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "63",
+      "title": "Dissipateur thermique",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "64",
+      "title": "Système de refroidissement",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "65",
+      "title": "Cadre modulaire fusionné",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "66",
+      "title": "Acide nitrique",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "67",
+      "title": "Acide nitrique conditionné",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "68",
+      "title": "Uranium non fissile",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "69",
+      "title": "Granulé de plutonium",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "70",
+      "title": "Cellule de plutonium",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "71",
+      "title": "Barre de plutonium",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "72",
+      "title": "Poudre de cuivre",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "73",
+      "title": "Cube de conversion de pression",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "74",
+      "title": "Pâte nucléaire",
+      "completed": false,
+      "categoryId": "tier-8"
+    },
+    {
+      "id": "75",
+      "title": "Souffre - Carburant pour fusée",
+      "completed": false,
+      "categoryId": "tier-8"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

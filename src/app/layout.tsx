@@ -1,15 +1,19 @@
-import {ReactNode} from "react";
-import "./globals.css";
-import RootLayout from "@/layout/RootLayout";
+import {ReactNode} from 'react'
+import './globals.css'
+import RootLayout from '@/layout/RootLayout'
+import AppLayout from '@/layout/AppLayout'
+import Providers from '@/providers'
 
 interface LayoutProps {
-    children: ReactNode;
+  children: ReactNode
 }
 
 export default function Layout({children}: LayoutProps) {
-    return (
-        <RootLayout>
-            {children}
-        </RootLayout>
-    );
+  return (
+    <RootLayout>
+      <Providers>
+        <AppLayout>{children}</AppLayout>
+      </Providers>
+    </RootLayout>
+  )
 }

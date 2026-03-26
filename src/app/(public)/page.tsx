@@ -1,11 +1,10 @@
 import {Fragment} from 'react'
-import styles from "./page.module.css";
-import Home from "@/ui/Home";
+import HomePage from '@/ui/HomePage'
 
 export default function Page() {
-    return (
-        <Fragment>
-           <Home styles={styles}/>
-        </Fragment>
-    )
+  return (
+    <Fragment>
+      <HomePage />
+    </Fragment>
+  )
 }
