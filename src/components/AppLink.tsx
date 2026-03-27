@@ -1,12 +1,10 @@
-'use client'
-
-import AppLink from '@/components/AppLink'
 import {Button} from '@mui/material'
+import Link from 'next/link'
 
-export default function Home() {
+export default function AppLink() {
   return (
     <Button
-      component={AppLink}
+      component={Link}
       href="/about"
       variant="contained"
     >
