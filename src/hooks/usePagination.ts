@@ -17,7 +17,7 @@ interface PaginationResult<T> {
   page: number
   rowsPerPage: number
   selected: readonly string[]
-  error?: string
+  error: Error | null
   isPending: boolean
   setOrder: (order: 'asc' | 'desc') => void
   setOrderBy: (orderBy: keyof T) => void
@@ -63,7 +63,7 @@ export default function usePagination<T extends {id: string}>(
     page: currentPage,
     rowsPerPage: currentRowsPerPage,
     selected,
-    error: Boolean(error) ? `${error?.message}` : '',
+    error: error,
     isPending,
     setOrder: setCurrentOrder,
     setOrderBy: setCurrentOrderBy,

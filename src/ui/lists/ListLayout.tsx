@@ -5,6 +5,6 @@ interface Props {
   children: ReactNode
 }
 
-export default function ListPageLayout({children}: Props) {
+export default function ListLayout({children}: Props) {
   return <Stack spacing={2}>{children}</Stack>
 }

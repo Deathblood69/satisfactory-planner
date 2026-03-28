@@ -1,5 +1,5 @@
 import {ReactNode} from 'react'
-import ListPageLayout from '@/ui/lists/ListPageLayout'
+import ListLayout from '@/ui/lists/ListLayout'
 
 interface Props {
   children: ReactNode
@@ -8,9 +8,9 @@ interface Props {
 
 export default function Layout(props: Props) {
   return (
-    <ListPageLayout>
+    <ListLayout>
       {props.toolbar}
       {props.children}
-    </ListPageLayout>
+    </ListLayout>
   )
 }

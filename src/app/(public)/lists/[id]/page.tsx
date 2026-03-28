@@ -2,7 +2,7 @@
 
 import {Fragment} from 'react'
 import {notFound, useParams} from 'next/navigation'
-import ListInfoPage from '@/ui/lists/ListInfoPage'
+import ListInfo from '@/ui/lists/ListInfo'
 
 export default function Page() {
   const params = useParams()
@@ -15,7 +15,7 @@ export default function Page() {
 
   return (
     <Fragment>
-      <ListInfoPage id={id} />
+      <ListInfo id={id} />
     </Fragment>
   )
 }

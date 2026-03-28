@@ -5,7 +5,7 @@ import {CSSProperties, ReactNode} from 'react'
 interface AsyncStatusProps {
   children?: ReactNode
   isPending: boolean
-  error?: string | null
+  error: Error | null
   pendingMessage?: string
   errorStyle?: CSSProperties
 }
@@ -24,7 +24,7 @@ export default function AsyncStatus({
   }
 
   if (error) {
-    return <div style={errorStyle}>{error}</div>
+    return <div style={errorStyle}>{error.message}</div>
   }
 
   return null
