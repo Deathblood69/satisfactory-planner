@@ -1,12 +1,12 @@
 'use client'
 
 import {Fragment} from 'react'
-import HomePage from '@/ui/HomePage'
+import ListPage from '@/ui/ListPage'
 
 export default function Page() {
   return (
     <Fragment>
-      <HomePage />
+      <ListPage />
     </Fragment>
   )
 }

@@ -1,8 +1,8 @@
 import {ReactNode} from 'react'
 import RootLayout from '@/layout/RootLayout'
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v13-appRouter'
-import {ThemeProvider} from '@mui/material/styles'
-import theme from '@/theme'
+import ThemeLayout from '@/layout/ThemeLayout'
+import QueryLayout from '@/layout/QueryLayout'
 
 interface LayoutProps {
   children: ReactNode
@@ -10,10 +10,12 @@ interface LayoutProps {
 
 export default function Layout({children}: LayoutProps) {
   return (
-    <RootLayout>
-      <AppRouterCacheProvider>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      </AppRouterCacheProvider>
-    </RootLayout>
+    <QueryLayout>
+      <ThemeLayout>
+        <RootLayout>
+          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+        </RootLayout>
+      </ThemeLayout>
+    </QueryLayout>
   )
 }

@@ -1,14 +1,22 @@
 import {Button} from '@mui/material'
 import Link from 'next/link'
+import {ReactNode} from 'react'
 
-export default function AppLink() {
+interface Props {
+  label: string
+  url: string
+  icon?: ReactNode
+}
+
+export default function AppLink({label, url, icon}: Props) {
   return (
     <Button
       component={Link}
-      href="/about"
+      href={url}
       variant="contained"
+      startIcon={icon}
     >
-      Go to About Page
+      {label}
     </Button>
   )
 }

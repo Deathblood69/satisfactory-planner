@@ -1,4 +1,5 @@
 {
+  "lists": [],
   "categories": [
     {
       "id": "tier-0",
@@ -512,6 +513,5 @@
       "completed": false,
       "categoryId": "tier-8"
     }
-  ],
-  "$schema": ["./node_modules/json-server/schema.json"]
+  ]
 }
