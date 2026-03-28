@@ -1,13 +1,18 @@
+import * as React from 'react'
 import {ReactNode} from 'react'
 import {ListCreateDTO} from '@/dto/ListCreateDTO'
 import {ListDTO} from '@/dto/ListDTO'
 import {ListService} from '@/services/ListService'
 import {FormProvider} from '@/providers/FormProvider'
 import {ROUTES_CONFIG} from '@/config/routes.config'
-import {useRouter} from 'next/navigation'
-import Button from '@mui/material/Button'
+import {usePathname, useRouter} from 'next/navigation'
 import {Card, Stack} from '@mui/material'
-import SaveButton from '@/components/SaveButton'
+import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
+import IconButton from '@mui/material/IconButton'
+import {Edit} from '@mui/icons-material'
+import {useQuery} from '@tanstack/react-query'
+import getEntityById from '@/queries/getEntityById'
 
 const defaultForm: ListCreateDTO = {
   name: '',
@@ -21,6 +26,13 @@ interface Props {
 
 export default function ListFormLayout({id, children}: Props) {
   const router = useRouter()
+  const pathname = usePathname()
+
+  const {data: list} = useQuery({
+    queryKey: ['lists', id],
+    queryFn: () => getEntityById<ListDTO>('lists', id),
+    enabled: !!id
+  })
 
   async function handleSave(dto: ListCreateDTO) {
     let entity: ListDTO
@@ -34,6 +46,10 @@ export default function ListFormLayout({id, children}: Props) {
 
   function handleSuccess() {
     router.push(`${ROUTES_CONFIG.lists}`)
+  }
+
+  function handleEdit() {
+    router.push(`${ROUTES_CONFIG.lists}/${id}`)
   }
 
   return (
@@ -52,15 +68,26 @@ export default function ListFormLayout({id, children}: Props) {
           spacing={2}
           component={Card}
         >
-          {children}
           <Stack
-            direction="row"
-            spacing={2}
-            justifyContent={'center'}
+            direction={'row'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
           >
-            <SaveButton edited={Boolean(id)} />
-            <Button variant={'outlined'}>Cancel</Button>
+            <Typography
+              variant="h5"
+              gutterBottom
+            >
+              {list?.name}
+            </Typography>
+            {pathname !== `${ROUTES_CONFIG.lists}/${id}` && (
+              <Tooltip title={'Edit'}>
+                <IconButton>
+                  <Edit onClick={handleEdit} />
+                </IconButton>
+              </Tooltip>
+            )}
           </Stack>
+          {children}
         </Stack>
       </FormProvider>
     </Card>

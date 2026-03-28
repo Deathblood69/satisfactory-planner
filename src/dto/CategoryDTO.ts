@@ -4,5 +4,5 @@ export interface CategoryDTO {
   parentId: string | null
   order: number
   inputValue?: string
-  disabled: boolean
+  disabled?: boolean
 }

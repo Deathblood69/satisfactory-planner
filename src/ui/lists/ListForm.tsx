@@ -1,53 +1,26 @@
-import {Card, Stack, Switch, TextField} from '@mui/material'
-import {TaskForm} from '@/ui/tasks/TaskForm'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import {useFormContext} from '@/providers/FormProvider'
-import {ListCreateDTO} from '@/dto/ListCreateDTO'
+'use client'
+
+import ListFields from '@/ui/lists/ListFields'
 import {Fragment} from 'react'
+import {Stack} from '@mui/material'
+import SaveButton from '@/components/SaveButton'
+import Button from '@mui/material/Button'
 
-export default function ListForm() {
-  const {form, onChangeForm} = useFormContext<ListCreateDTO>()
+interface Props {
+  id: string
+}
 
+export default function ListForm({id}: Props) {
   return (
     <Fragment>
+      <ListFields />
       <Stack
         direction="row"
         spacing={2}
+        justifyContent={'center'}
       >
-        <TextField
-          id={'name'}
-          name={'name'}
-          label={'Name'}
-          value={form.name}
-          fullWidth
-          onChange={(event) => {
-            onChangeForm({
-              name: event.target.value
-            })
-          }}
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              id={'private'}
-              name={'private'}
-              checked={form.private}
-              onChange={(event) => {
-                onChangeForm({
-                  private: event.target.checked
-                })
-              }}
-            />
-          }
-          label="Private"
-        />
-      </Stack>
-      <Stack
-        sx={{p: 2}}
-        spacing={2}
-        component={Card}
-      >
-        <TaskForm />
+        <SaveButton edited={Boolean(id)} />
+        <Button variant={'outlined'}>Cancel</Button>
       </Stack>
     </Fragment>
   )

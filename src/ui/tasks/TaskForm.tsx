@@ -5,16 +5,21 @@ import {Button, Stack, TextField} from '@mui/material'
 import {CategoryDTO} from '@/dto/CategoryDTO'
 import AppAutocomplete from '@/components/AppAutocomplete'
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
+import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
 
 const API_TASKS = 'http://localhost:3001/tasks'
-const API_CATEGORIES = 'http://localhost:3001/categories'
 
-export function TaskForm() {
+interface Props {
+  idList: string
+}
+
+export function TaskForm({idList}: Props) {
   const queryClient = useQueryClient()
 
-  const {data: categories = []} = useQuery<CategoryDTO[]>({
+  const {data: categories} = useQuery({
     queryKey: ['categories'],
-    queryFn: async () => (await fetch(API_CATEGORIES)).json()
+    queryFn: () =>
+      getEntitiesByProperty<CategoryDTO>('categories', 'listId', idList)
   })
 
   const [title, setTitle] = useState('')
@@ -71,7 +76,7 @@ export function TaskForm() {
       />
       <AppAutocomplete
         title="Catégories"
-        items={categories}
+        items={categories ?? []}
         onChange={handleAddCategory}
       />
       <Button

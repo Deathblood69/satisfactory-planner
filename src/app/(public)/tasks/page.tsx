@@ -1,7 +1,7 @@
 'use client'
 
-import TaskDisplay from '@/ui/tasks/TaskDisplay'
+import ListDetail from '@/ui/lists/ListDetail'
 
 export default function Page() {
-  return <TaskDisplay />
+  return <ListDetail />
 }

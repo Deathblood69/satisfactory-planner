@@ -3,43 +3,46 @@ import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import {useQuery} from '@tanstack/react-query'
-import getAllEntities from '@/queries/getAllEntities'
 import {CategoryDTO} from '@/dto/CategoryDTO'
+import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
 
 interface Props {
+  idList: string
   selectedCategory?: CategoryDTO
   handleCategoryChange: (selectedCategory?: CategoryDTO) => void
 }
 
 export default function CategoriesList({
+  idList,
   selectedCategory,
   handleCategoryChange
 }: Props) {
   const {data: categories} = useQuery({
     queryKey: ['categories'],
-    queryFn: () => getAllEntities<CategoryDTO[]>('categories')
+    queryFn: () =>
+      getEntitiesByProperty<CategoryDTO>('categories', 'listId', idList)
   })
 
+  if (!categories || categories.length === 0) return null
+
   return (
-    categories && (
-      <List>
+    <List>
+      <ListItemButton
+        selected={!selectedCategory}
+        onClick={() => handleCategoryChange()}
+      >
+        <ListItemText primary="None" />
+      </ListItemButton>
+      {categories.map((category) => (
         <ListItemButton
-          selected={!selectedCategory}
-          onClick={() => handleCategoryChange()}
+          key={category.id}
+          disabled={category.disabled}
+          selected={category.id === selectedCategory?.id}
+          onClick={() => handleCategoryChange(category)}
         >
-          <ListItemText primary="None" />
+          <ListItemText primary={category.name} />
         </ListItemButton>
-        {categories.map((category) => (
-          <ListItemButton
-            key={category.id}
-            disabled={category.disabled}
-            selected={category.id === selectedCategory?.id}
-            onClick={() => handleCategoryChange(category)}
-          >
-            <ListItemText primary={category.name} />
-          </ListItemButton>
-        ))}
-      </List>
-    )
+      ))}
+    </List>
   )
 }

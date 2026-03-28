@@ -8,7 +8,7 @@ import AsyncStatus from '@/components/AsyncStatus'
 import usePagination from '@/hooks/usePagination'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import {Edit, FilterList} from '@mui/icons-material'
+import {Edit, FilterList, Launch} from '@mui/icons-material'
 import DeleteButton from '@/components/DeleteButton'
 import {ListService} from '@/services/ListService'
 import useForm from '@/hooks/useForm'
@@ -60,7 +60,9 @@ export default function ListsDisplay() {
       switch (id) {
         case 'new':
           router.push(`${ROUTES_CONFIG.lists}/new`)
-
+          break
+        case 'view':
+          router.push(`${ROUTES_CONFIG.lists}/${selected[0]}/tasks`)
           break
         case 'edit':
           router.push(`${ROUTES_CONFIG.lists}/${selected[0]}`)
@@ -77,6 +79,17 @@ export default function ListsDisplay() {
       {
         id: 'new',
         children: selecting.selected.length === 0 && <NewButton />,
+        onClick: handleClickAction
+      },
+      {
+        id: 'view',
+        children: selecting.selected.length === 1 && (
+          <Tooltip title={'View details'}>
+            <IconButton>
+              <Launch />
+            </IconButton>
+          </Tooltip>
+        ),
         onClick: handleClickAction
       },
       {
