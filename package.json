@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:backend": "npx json-server --watch db.json --port 3001",
+    "dev:backend": "npm run db:init && npx json-server --watch db.json --port 3001",
+    "db:init": "node scripts/create-db.js data/desserts.json",
     "build": "next build",
-    "start": "next start",
     "lint": "eslint",
     "prettier:list": "npx prettier . --check",
     "prettier:fix": "npx prettier . --write"

@@ -3,7 +3,6 @@
 import {Fragment} from 'react'
 import EnhancedTable, {HeadCell} from '@/components/EnhancedTable'
 import {ListDTO} from '@/dto/ListDTO'
-import {listDTOS} from '@/data/lists.data'
 
 const headCells: readonly HeadCell<ListDTO>[] = [
   {
@@ -21,7 +20,7 @@ export default function ListsDisplay() {
     <Fragment>
       <EnhancedTable<ListDTO>
         title={'Lists'}
-        rows={listDTOS}
+        rows={[]}
         headCells={headCells}
         order={'asc'}
         orderBy={'name'}

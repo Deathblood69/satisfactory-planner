@@ -1,0 +1,82 @@
+{
+  "lists": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "Cupcake",
+      "instance": "A1B2C3",
+      "private": false
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "name": "Donut",
+      "instance": "D4E5F6",
+      "private": true
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440002",
+      "name": "Eclair",
+      "instance": "G7H8I9",
+      "private": false
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440003",
+      "name": "Frozen yoghurt",
+      "instance": "J1K2L3",
+      "private": true
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440004",
+      "name": "Gingerbread",
+      "instance": "M4N5O6",
+      "private": false
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440005",
+      "name": "Honeycomb",
+      "instance": "P7Q8R9",
+      "private": true
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440006",
+      "name": "Ice cream sandwich",
+      "instance": "S1T2U3",
+      "private": false
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440007",
+      "name": "Jelly Bean",
+      "instance": "V4W5X6",
+      "private": true
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440008",
+      "name": "KitKat",
+      "instance": "Y7Z8A9",
+      "private": false
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440009",
+      "name": "Lollipop",
+      "instance": "B1C2D3",
+      "private": true
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-44665544000a",
+      "name": "Marshmallow",
+      "instance": "E4F5G6",
+      "private": false
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-44665544000b",
+      "name": "Nougat",
+      "instance": "H7I8J9",
+      "private": true
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-44665544000c",
+      "name": "Oreo",
+      "instance": "K1L2M3",
+      "private": false
+    }
+  ]
+}

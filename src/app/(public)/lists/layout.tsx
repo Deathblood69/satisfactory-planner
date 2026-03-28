@@ -3,13 +3,13 @@ import ListPageLayout from '@/ui/lists/ListPageLayout'
 
 interface Props {
   children: ReactNode
-  new: ReactNode
+  toolbar: ReactNode
 }
 
 export default function Layout(props: Props) {
   return (
     <ListPageLayout>
-      {props.new}
+      {props.toolbar}
       {props.children}
     </ListPageLayout>
   )
