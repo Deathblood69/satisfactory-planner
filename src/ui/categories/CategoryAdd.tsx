@@ -13,20 +13,19 @@ interface CategoryAddProps {
 }
 
 export default function CategoryAdd({value, setValue}: CategoryAddProps) {
-  const {onChangeForm} = useFormContext<CategoryCreateDTO>()
+  const {form, onChangeForm, onDeleteForm} = useFormContext<CategoryCreateDTO>()
 
   const currentValue = useMemo(() => {
-    return value?.name ?? ''
-  }, [value])
+    return form.name
+  }, [form.name])
 
   function handleChange(value: string) {
+    console.log(value)
     setValue((prevState) => prevState && {...prevState, name: value})
     onChangeForm({
       name: value
     })
   }
-
-  console.log(value)
 
   return (
     <Fragment>
@@ -40,7 +39,7 @@ export default function CategoryAdd({value, setValue}: CategoryAddProps) {
       />
       <AppButton type={'submit'}>{value?.id ? <Save /> : <Add />}</AppButton>
       {value?.id && (
-        <AppButton>
+        <AppButton onClick={() => onDeleteForm(value.id)}>
           <Delete />
         </AppButton>
       )}

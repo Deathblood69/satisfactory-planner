@@ -41,11 +41,16 @@ export default function CategoryForm({id, listId}: Props) {
     return entity
   }
 
+  async function handleDelete(id: string) {
+    await CategoryService.deleteByIds([id])
+  }
+
   return (
     <FormProvider<CategoryCreateDTO, CategoryDTO>
       entity={API_CONFIG.categories}
       defaultForm={defaultForm}
       onSave={handleSave}
+      onDelete={handleDelete}
     >
       <Stack
         direction="row"

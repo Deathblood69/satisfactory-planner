@@ -5,18 +5,31 @@ import {ReactNode} from 'react'
 interface Props {
   type?: 'button' | 'submit' | 'reset'
   icon?: boolean
-  children: ReactNode
   fullWidth?: boolean
+  children: ReactNode
+  onClick?: () => void
 }
 
-export default function AppButton({type, icon, fullWidth, children}: Props) {
+export default function AppButton({
+  type,
+  icon,
+  fullWidth,
+  children,
+  onClick
+}: Props) {
   return icon ? (
-    <IconButton type={type}>{children}</IconButton>
+    <IconButton
+      onClick={onClick}
+      type={type}
+    >
+      {children}
+    </IconButton>
   ) : (
     <Button
       type={type}
       variant={type === 'submit' ? 'contained' : 'outlined'}
       fullWidth={fullWidth}
+      onClick={onClick}
     >
       {children}
     </Button>

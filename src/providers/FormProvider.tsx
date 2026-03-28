@@ -16,6 +16,7 @@ interface Props<Form, Response> {
   entity: string
   defaultForm: Form
   onSave: (data: Form) => Promise<Response>
+  onDelete: (id: string) => Promise<void>
   onSuccess?: (response?: Response) => void
   children: ReactNode
 }
@@ -26,6 +27,7 @@ interface FormContextType<Form> {
   isPending: boolean
   isError: boolean
   onChangeForm: (data: Partial<Form>) => void
+  onDeleteForm: (id: string) => void
 }
 
 const FormContext = createContext<FormContextType<any> | null>(null)
@@ -35,6 +37,7 @@ export function FormProvider<Form, Response>({
   entity,
   defaultForm,
   onSave,
+  onDelete,
   onSuccess,
   children
 }: Props<Form, Response>) {
@@ -71,6 +74,15 @@ export function FormProvider<Form, Response>({
     }
   })
 
+  const {mutate: mutateDelete} = useMutation<void, unknown, string>({
+    mutationFn: async (id) => {
+      return await onDelete(id)
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({queryKey: [entity]})
+    }
+  })
+
   useEffect(() => {
     if (id && id !== 'new') {
       mutateFetchEdited(id)
@@ -88,6 +100,10 @@ export function FormProvider<Form, Response>({
     mutateSave(data)
   }
 
+  function handleDelete(id: string) {
+    mutateDelete(id)
+  }
+
   return (
     <FormContext.Provider
       value={{
@@ -95,7 +111,8 @@ export function FormProvider<Form, Response>({
         error: (errorFetchEdited || errorSave) as Error,
         isPending: isPendingFetchEdited || isPendingSave,
         isError: isErrorFetchEdited || isErrorSave,
-        onChangeForm: handleChangeForm
+        onChangeForm: handleChangeForm,
+        onDeleteForm: handleDelete
       }}
     >
       <form onSubmit={handleSubmit}>{children}</form>

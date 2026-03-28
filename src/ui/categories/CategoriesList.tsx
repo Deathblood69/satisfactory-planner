@@ -29,8 +29,6 @@ export default function CategoriesList({
       )
   })
 
-  if (!categories || categories.length === 0) return null
-
   return (
     <List>
       <ListItemButton
@@ -39,19 +37,20 @@ export default function CategoriesList({
       >
         <ListItemText primary="None" />
       </ListItemButton>
-      {categories.map((category) => (
-        <ListItemButton
-          key={category.id}
-          disabled={category.disabled}
-          selected={
-            category.id === selectedCategory?.id &&
-            category.name === selectedCategory.name
-          }
-          onClick={() => handleCategoryChange(category)}
-        >
-          <ListItemText primary={category.name} />
-        </ListItemButton>
-      ))}
+      {categories &&
+        categories.map((category) => (
+          <ListItemButton
+            key={category.id}
+            disabled={category.disabled}
+            selected={
+              category.id === selectedCategory?.id &&
+              category.name === selectedCategory.name
+            }
+            onClick={() => handleCategoryChange(category)}
+          >
+            <ListItemText primary={category.name} />
+          </ListItemButton>
+        ))}
     </List>
   )
 }
