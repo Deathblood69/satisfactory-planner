@@ -63,23 +63,24 @@ export function TaskList({idList, selectedCategory}: Props) {
       spacing={2}
       sx={{width: '100%', p: 2}}
     >
-      {!selectedCategory && (
-        <Stack spacing={2}>
-          <Typography>
-            <strong>{'None'}</strong>
-          </Typography>
-          {tasks
-            ?.filter((task) => !task.categoryId)
-            .map((task) => (
-              <TaskItem
-                key={task.id}
-                task={task}
-                onToggle={onToggle}
-                onDelete={onDelete}
-              />
-            ))}
-        </Stack>
-      )}
+      {!selectedCategory &&
+        tasks?.filter((task) => !task.categoryId).length > 0 && (
+          <Stack spacing={2}>
+            <Typography>
+              <strong>{'None'}</strong>
+            </Typography>
+            {tasks
+              ?.filter((task) => !task.categoryId)
+              .map((task) => (
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  onToggle={onToggle}
+                  onDelete={onDelete}
+                />
+              ))}
+          </Stack>
+        )}
       {categories
         ?.filter((category) =>
           selectedCategory ? selectedCategory.id === category.id : true
@@ -96,7 +97,9 @@ export function TaskList({idList, selectedCategory}: Props) {
           return (
             <Fragment key={category.id}>
               <Typography>
-                <strong>{category.name}</strong>
+                <strong>
+                  {category.name} ({sorted.length} items)
+                </strong>
               </Typography>
               {sorted.map((task) => {
                 return (

@@ -68,6 +68,7 @@ export function FormProvider<Form, Response>({
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: [entity]})
+      setState(defaultForm)
       if (onSuccess) {
         onSuccess()
       }
