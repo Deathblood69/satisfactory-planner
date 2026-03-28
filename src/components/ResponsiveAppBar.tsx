@@ -59,7 +59,6 @@ function ResponsiveAppBar({title, icon, pages, settings, onClick}: Props) {
             sx={{
               mr: 2,
               display: {xs: 'none', md: 'flex'},
-              letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none'
             }}
@@ -116,9 +115,6 @@ function ResponsiveAppBar({title, icon, pages, settings, onClick}: Props) {
               mr: 2,
               display: {xs: 'flex', md: 'none'},
               flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none'
             }}
