@@ -7,7 +7,7 @@ import {ROUTES_CONFIG} from '@/config/routes.config'
 import {useRouter} from 'next/navigation'
 import {Stack} from '@mui/material'
 import ListFields from '@/ui/lists/ListFields'
-import SaveButton from '@/components/SaveButton'
+import SaveButton from '@/components/buttons/SaveButton'
 import Button from '@mui/material/Button'
 import {API_CONFIG} from '@/config/api.config'
 

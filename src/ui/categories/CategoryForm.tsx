@@ -8,10 +8,8 @@ import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import {FormProvider} from '@/providers/FormProvider'
 import {CategoryCreateDTO} from '@/dto/categories/CategoryCreateDTO'
 import {CategoryService} from '@/services/CategoryService'
-import CategoryFields from '@/ui/categories/CategoryFields'
 import CategoriesList from '@/ui/categories/CategoriesList'
-import AddButton from '@/components/AddButton'
-import DeleteButton from '@/components/DeleteButton'
+import CategoryAdd from '@/ui/categories/CategoryAdd'
 
 interface Props {
   id?: string
@@ -19,7 +17,7 @@ interface Props {
 }
 
 export default function CategoryForm({id, listId}: Props) {
-  const [selectedCategory, setCategory] = useState<CategoryDTO>()
+  const [category, setCategory] = useState<CategoryDTO>()
 
   const defaultForm: CategoryCreateDTO = useMemo(() => {
     return {
@@ -54,13 +52,14 @@ export default function CategoryForm({id, listId}: Props) {
         spacing={2}
         sx={{mb: 2}}
       >
-        <CategoryFields />
-        <AddButton />
-        <DeleteButton square={true} />
+        <CategoryAdd
+          value={category}
+          setValue={setCategory}
+        />
       </Stack>
       <CategoriesList
         idList={listId}
-        selectedCategory={selectedCategory}
+        selectedCategory={category}
         handleCategoryChange={handleCategoryChange}
       />
     </FormProvider>

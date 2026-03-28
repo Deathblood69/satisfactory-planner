@@ -6,7 +6,7 @@ import AppAutocomplete from '@/components/AppAutocomplete'
 import {useQuery} from '@tanstack/react-query'
 import {API_CONFIG} from '@/config/api.config'
 import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
-import AddButton from '@/components/AddButton'
+import AddButton from '@/components/buttons/AddButton'
 
 interface Props {
   idList: string

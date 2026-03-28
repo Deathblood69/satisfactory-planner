@@ -43,7 +43,10 @@ export default function CategoriesList({
         <ListItemButton
           key={category.id}
           disabled={category.disabled}
-          selected={category.id === selectedCategory?.id}
+          selected={
+            category.id === selectedCategory?.id &&
+            category.name === selectedCategory.name
+          }
           onClick={() => handleCategoryChange(category)}
         >
           <ListItemText primary={category.name} />
