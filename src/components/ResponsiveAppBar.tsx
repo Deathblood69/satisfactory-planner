@@ -11,15 +11,16 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
-import AdbIcon from '@mui/icons-material/Adb'
 
 interface Props {
-  pages: {label: string; url: string}[]
-  settings: {label: string; url: string}[]
+  title: string
+  icon?: React.ReactNode
+  pages?: {label: string; url: string}[]
+  settings?: {label: string; url: string}[]
   onClick: (value: string) => void
 }
 
-function ResponsiveAppBar({pages, settings, onClick}: Props) {
+function ResponsiveAppBar({title, icon, pages, settings, onClick}: Props) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -49,7 +50,7 @@ function ResponsiveAppBar({pages, settings, onClick}: Props) {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}} />
+          <Box sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}>{icon}</Box>
           <Typography
             variant="h6"
             noWrap
@@ -58,14 +59,12 @@ function ResponsiveAppBar({pages, settings, onClick}: Props) {
             sx={{
               mr: 2,
               display: {xs: 'none', md: 'flex'},
-              fontFamily: 'monospace',
-              fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none'
             }}
           >
-            LOGO
+            {title}
           </Typography>
 
           <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
@@ -95,7 +94,7 @@ function ResponsiveAppBar({pages, settings, onClick}: Props) {
               onClose={handleCloseNavMenu}
               sx={{display: {xs: 'block', md: 'none'}}}
             >
-              {pages.map((page) => (
+              {pages?.map((page) => (
                 <MenuItem
                   key={page.url}
                   onClick={() => handleClickMenu(page.url)}
@@ -107,7 +106,7 @@ function ResponsiveAppBar({pages, settings, onClick}: Props) {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}} />
+          <Box sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}>{icon}</Box>
           <Typography
             variant="h5"
             noWrap
@@ -124,10 +123,10 @@ function ResponsiveAppBar({pages, settings, onClick}: Props) {
               textDecoration: 'none'
             }}
           >
-            LOGO
+            {title}
           </Typography>
           <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-            {pages.map((page) => (
+            {pages?.map((page) => (
               <Button
                 key={page.url}
                 onClick={() => handleClickMenu(page.url)}
@@ -165,7 +164,7 @@ function ResponsiveAppBar({pages, settings, onClick}: Props) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {settings?.map((setting) => (
                 <MenuItem
                   key={setting.url}
                   onClick={() => handleClickMenu(setting.url)}

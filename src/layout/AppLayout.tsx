@@ -2,15 +2,12 @@ import {Fragment, ReactNode} from 'react'
 import ResponsiveAppBar from '@/components/ResponsiveAppBar'
 import Box from '@mui/material/Box'
 import {redirect} from 'next/navigation'
+import {Assignment} from '@mui/icons-material'
 
 interface Props {
   children: ReactNode
 }
 
-const pages = [
-  {label: 'Lists', url: '/lists'},
-  {label: 'Tasks', url: '/tasks'}
-]
 const settings = [
   {label: 'Profile', url: '/profile'},
   {label: 'Account', url: '/account'},
@@ -26,7 +23,8 @@ export default function AppLayout({children}: Props) {
   return (
     <Fragment>
       <ResponsiveAppBar
-        pages={pages}
+        title={'Tasks Lists'}
+        icon={<Assignment />}
         settings={settings}
         onClick={handleClick}
       />
