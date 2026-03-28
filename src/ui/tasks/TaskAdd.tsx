@@ -6,7 +6,9 @@ import AppAutocomplete from '@/components/AppAutocomplete'
 import {useQuery} from '@tanstack/react-query'
 import {API_CONFIG} from '@/config/api.config'
 import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
-import AddButton from '@/components/buttons/AddButton'
+import AppButton from '@/components/AppButton'
+import {Add} from '@mui/icons-material'
+import * as React from 'react'
 
 interface Props {
   idList: string
@@ -42,7 +44,9 @@ export function TaskAdd({idList}: Props) {
         items={categories}
         getOptionLabel={getOptionLabel}
       />
-      <AddButton />
+      <AppButton type={'submit'}>
+        <Add />
+      </AppButton>
     </Stack>
   )
 }

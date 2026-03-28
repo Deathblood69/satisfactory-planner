@@ -2,10 +2,10 @@ import * as React from 'react'
 import {Dispatch, Fragment, SetStateAction, useMemo} from 'react'
 import {useFormContext} from '@/providers/FormProvider'
 import {CategoryCreateDTO} from '@/dto/categories/CategoryCreateDTO'
-import AddButton from '@/components/buttons/AddButton'
-import DeleteButton from '@/components/buttons/DeleteButton'
 import {TextField} from '@mui/material'
 import {CategoryDTO} from '@/dto/categories/CategoryDTO'
+import AppButton from '@/components/AppButton'
+import {Add, Delete, Save} from '@mui/icons-material'
 
 interface CategoryAddProps {
   value: CategoryDTO | undefined
@@ -38,8 +38,12 @@ export default function CategoryAdd({value, setValue}: CategoryAddProps) {
         fullWidth
         onChange={(event) => handleChange(event.target.value)}
       />
-      <AddButton />
-      <DeleteButton square={true} />
+      <AppButton type={'submit'}>{value?.id ? <Save /> : <Add />}</AppButton>
+      {value?.id && (
+        <AppButton>
+          <Delete />
+        </AppButton>
+      )}
     </Fragment>
   )
 }

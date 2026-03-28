@@ -1,16 +1,23 @@
 import Button from '@mui/material/Button'
+import {Save} from '@mui/icons-material'
+import IconButton from '@mui/material/IconButton'
 
 interface Props {
-  edited: boolean
+  square?: boolean
 }
 
-export default function SaveButton({edited}: Props) {
-  return (
+export default function SaveButton({square}: Props) {
+  return square ? (
     <Button
       type={'submit'}
-      variant={'contained'}
+      variant="contained"
+      fullWidth={true}
     >
-      {edited ? 'Save' : 'Create'}
+      <Save />
     </Button>
+  ) : (
+    <IconButton>
+      <Save />
+    </IconButton>
   )
 }

@@ -3,13 +3,11 @@ import {ListCreateDTO} from '@/dto/lists/ListCreateDTO'
 import {ListDTO} from '@/dto/lists/ListDTO'
 import {ListService} from '@/services/ListService'
 import {FormProvider} from '@/providers/FormProvider'
-import {ROUTES_CONFIG} from '@/config/routes.config'
-import {useRouter} from 'next/navigation'
 import {Stack} from '@mui/material'
 import ListFields from '@/ui/lists/ListFields'
-import SaveButton from '@/components/buttons/SaveButton'
-import Button from '@mui/material/Button'
 import {API_CONFIG} from '@/config/api.config'
+import AppButton from '@/components/AppButton'
+import {Add, Clear, Save} from '@mui/icons-material'
 
 const defaultForm: ListCreateDTO = {
   name: '',
@@ -21,8 +19,6 @@ interface Props {
 }
 
 export default function ListForm({id}: Props) {
-  const router = useRouter()
-
   async function handleSave(dto: ListCreateDTO) {
     let entity: ListDTO
     if (id && !Array.isArray(id) && id !== 'new') {
@@ -31,10 +27,6 @@ export default function ListForm({id}: Props) {
       entity = await ListService.createList(dto)
     }
     return entity
-  }
-
-  function handleCancel() {
-    router.push(`${ROUTES_CONFIG.lists}`)
   }
 
   return (
@@ -47,15 +39,26 @@ export default function ListForm({id}: Props) {
       <Stack
         direction="column"
         spacing={2}
+        sx={{width: '100%'}}
       >
         <ListFields />
-        <SaveButton edited={Boolean(id)} />
-        <Button
-          variant={'outlined'}
-          onClick={handleCancel}
+        <Stack
+          direction={'row'}
+          spacing={2}
         >
-          Cancel
-        </Button>
+          <AppButton
+            type={'submit'}
+            fullWidth={true}
+          >
+            {Boolean(id) ? <Save /> : <Add />}
+          </AppButton>
+          <AppButton
+            type={'reset'}
+            fullWidth={true}
+          >
+            <Clear />
+          </AppButton>
+        </Stack>
       </Stack>
     </FormProvider>
   )

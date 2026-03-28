@@ -4,9 +4,7 @@ import {Action, HeadCell, RowAction} from '@/components/table'
 import {ListDTO} from '@/dto/lists/ListDTO'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import {FilterList, Launch} from '@mui/icons-material'
-import DeleteButton from '@/components/buttons/DeleteButton'
-import NewButton from '@/components/buttons/NewButton'
+import {Add, Delete, FilterList, Launch} from '@mui/icons-material'
 import {ROUTES_CONFIG} from '@/config/routes.config'
 import AppChip from '@/components/AppChip'
 import {useRouter} from 'next/navigation'
@@ -14,6 +12,7 @@ import {ListService} from '@/services/ListService'
 import useForm from '@/hooks/useForm'
 import usePagination from '@/hooks/usePagination'
 import {API_CONFIG} from '@/config/api.config'
+import AppButton from '@/components/AppButton'
 
 type Ids = readonly string[] | undefined
 
@@ -91,12 +90,20 @@ export default function useListTable() {
     return [
       {
         id: 'new',
-        children: selecting.selected.length === 0 && <NewButton />,
+        children: selecting.selected.length === 0 && (
+          <AppButton>
+            <Add />
+          </AppButton>
+        ),
         onClick: handleClickAction
       },
       {
         id: 'delete',
-        children: selecting.selected.length > 0 && <DeleteButton />,
+        children: selecting.selected.length > 0 && (
+          <AppButton>
+            <Delete />
+          </AppButton>
+        ),
         onClick: handleClickAction
       },
       {
