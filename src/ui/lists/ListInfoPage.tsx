@@ -1,9 +1,9 @@
-import {Fragment} from 'react'
+import {Card} from '@mui/material'
 
 interface Props {
   id: string
 }
 
 export default function ListInfoPage({id}: Props) {
-  return <Fragment>{id}</Fragment>
+  return <Card elevation={2}>{id}</Card>
 }

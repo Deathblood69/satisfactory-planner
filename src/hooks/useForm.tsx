@@ -8,10 +8,10 @@ interface Props<Input, Output> {
   onSuccess?: (data: Output) => void
 }
 
-export default function useForm<Input, Output>({
-  onCreate,
-  onSuccess
-}: Props<Input, Output>) {
+export default function useForm<Input, Output>(
+  entity: string,
+  {onCreate, onSuccess}: Props<Input, Output>
+) {
   const queryClient = new QueryClient()
   const [customError, setCustomError] = useState<string | null>(null)
 
@@ -36,7 +36,7 @@ export default function useForm<Input, Output>({
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['lists']})
+      queryClient.invalidateQueries({queryKey: [entity]})
     }
   })
 

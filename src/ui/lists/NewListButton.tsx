@@ -14,12 +14,15 @@ import Box from '@mui/material/Box'
 export default function NewListButton() {
   const router = useRouter()
 
-  const {error, isPending, onSubmit} = useForm<ListCreateDTO, ListDTO>({
-    onCreate: ListService.createList,
-    onSuccess: (data) => {
-      router.push(`${ROUTES_CONFIG.lists}/${data.instance}`)
+  const {error, isPending, onSubmit} = useForm<ListCreateDTO, ListDTO>(
+    'lists',
+    {
+      onCreate: ListService.createList,
+      onSuccess: (data) => {
+        router.push(`${ROUTES_CONFIG.lists}/${data.instance}`)
+      }
     }
-  })
+  )
 
   function handleSubmit() {
     onSubmit({instance: IdService.generateId('v4')})
