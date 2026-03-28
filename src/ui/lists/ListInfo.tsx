@@ -4,6 +4,9 @@ import {ListDTO} from '@/dto/ListDTO'
 import {useQuery} from '@tanstack/react-query'
 import AsyncStatus from '@/components/AsyncStatus'
 import Typography from '@mui/material/Typography'
+import {TaskList} from '@/ui/tasks/TaskList'
+import getAllEntities from '@/queries/getAllEntities'
+import {TaskDTO} from '@/dto/TaskDTO'
 
 interface Props {
   id: string
@@ -11,20 +14,29 @@ interface Props {
 
 export default function ListInfo({id}: Props) {
   const {
-    data,
-    isLoading: isPending,
-    error
+    data: list,
+    isLoading: isLoadingList,
+    error: errorList
   } = useQuery({
     queryKey: ['lists', id],
     queryFn: () => getEntityByProperty<ListDTO>('lists', 'instance', id)
   })
 
-  console.log(data)
+  const {
+    data: tasks,
+    isLoading: isLoadingTasks,
+    error: errorTasks
+  } = useQuery({
+    queryKey: ['tasks', id],
+    queryFn: () => getAllEntities<TaskDTO[]>('tasks'),
+    // The query will not execute until the userId exists
+    enabled: !!id
+  })
 
   return (
     <AsyncStatus
-      error={error ?? null}
-      isPending={isPending}
+      error={errorList}
+      isPending={isLoadingList}
     >
       <Stack
         elevation={2}
@@ -32,8 +44,21 @@ export default function ListInfo({id}: Props) {
         spacing={2}
         component={Card}
       >
-        <Typography variant="h5">{id}</Typography>
-        <TextField label={'Name'} />
+        <Typography variant="h5">{list?.id}</Typography>
+        <TextField
+          label={'Name'}
+          value={list?.name}
+        />
+        <TextField
+          label={'Instance'}
+          value={list?.instance}
+        />
+        <AsyncStatus
+          isPending={isLoadingTasks}
+          error={errorTasks}
+        >
+          <TaskList tasks={tasks} />
+        </AsyncStatus>
       </Stack>
     </AsyncStatus>
   )

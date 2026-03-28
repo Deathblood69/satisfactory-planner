@@ -1,0 +1,38 @@
+{
+  "lists": [
+    {
+      "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "name": "Liste Maison",
+      "instance": "A1B2C3",
+      "private": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": "9b1deb4d-3b7d-4d6c-8f3d-3c1e1b0a7a3f",
+      "title": "Balayer le sol",
+      "completed": false,
+      "categoryId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    {
+      "id": "2c1d3f4a-6e6b-4f8a-bf0d-8a1e7c3f9b2a",
+      "title": "Laver la vaisselle",
+      "completed": false,
+      "categoryId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    {
+      "id": "5d2a1e7c-4f6b-4a8f-9c1d-7e3f2b0a5c6d",
+      "title": "Plier le linge",
+      "completed": false,
+      "categoryId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    }
+  ],
+  "categories": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "Tâches domestiques",
+      "parentId": null,
+      "order": 0
+    }
+  ]
+}
