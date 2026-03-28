@@ -100,6 +100,7 @@ export default function EnhancedTable<T extends {id: string}>({
             />
             <EnhancedTableBody
               headCells={headCells}
+              rows={rows}
               rowActions={rowActions}
               actions={actions}
               paginating={paginating}
