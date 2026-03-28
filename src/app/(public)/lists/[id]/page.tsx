@@ -2,7 +2,7 @@
 
 import {Fragment} from 'react'
 import {notFound, useParams} from 'next/navigation'
-import ListInfoPage from '@/ui/ListInfoPage'
+import ListInfoPage from '@/ui/lists/ListInfoPage'
 
 export default function Page() {
   const params = useParams()

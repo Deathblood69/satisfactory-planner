@@ -1,7 +1,10 @@
-'use client'
-
-import NewListPage from '@/ui/NewListPage'
+import {Fragment} from 'react'
+import ListsDisplay from '@/ui/lists/ListsDisplay'
 
 export default function Page() {
-  return <NewListPage />
+  return (
+    <Fragment>
+      <ListsDisplay />
+    </Fragment>
+  )
 }

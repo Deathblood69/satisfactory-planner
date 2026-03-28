@@ -1,14 +1,4 @@
 {
-  "lists": [
-    {
-      "instance": "faa6b618-9016-4eef-984d-2e6d8f7aecb0",
-      "id": "woZDsdfiRKY"
-    },
-    {
-      "instance": "0c186c42-fdc4-4403-a6f0-5ff50b0af16e",
-      "id": "H9tlzQGwPuY"
-    }
-  ],
   "categories": [
     {
       "id": "tier-0",
@@ -522,6 +512,5 @@
       "completed": false,
       "categoryId": "tier-8"
     }
-  ],
-  "$schema": ["./node_modules/json-server/schema.json"]
+  ]
 }

@@ -3,15 +3,15 @@
 import {ListService} from '@/services/ListService'
 import {ListCreateDTO} from '@/dto/ListCreateDTO'
 import {IdService} from '@/services/IdService'
-import {Fragment} from 'react'
 import Button from '@mui/material/Button'
 import {useRouter} from 'next/navigation'
 import useForm from '@/hooks/useForm'
 import {ListDTO} from '@/dto/ListDTO'
 import {ROUTES_CONFIG} from '@/config/routes.config'
 import AsyncStatus from '@/components/AsyncStatus'
+import Box from '@mui/material/Box'
 
-export default function NewListPage() {
+export default function NewListButton() {
   const router = useRouter()
 
   const {error, isPending, onSubmit} = useForm<ListCreateDTO, ListDTO>({
@@ -26,7 +26,7 @@ export default function NewListPage() {
   }
 
   return (
-    <Fragment>
+    <Box>
       <AsyncStatus
         isPending={isPending}
         error={error}
@@ -39,6 +39,6 @@ export default function NewListPage() {
       >
         Create new list
       </Button>
-    </Fragment>
+    </Box>
   )
 }
