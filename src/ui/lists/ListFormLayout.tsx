@@ -24,7 +24,7 @@ export default function ListFormLayout({id, children}: Props) {
 
   async function handleSave(dto: ListCreateDTO) {
     let entity: ListDTO
-    if (id && !Array.isArray(id)) {
+    if (id && !Array.isArray(id) && id !== 'new') {
       entity = await ListService.updateList(id, dto)
     } else {
       entity = await ListService.createList(dto)
