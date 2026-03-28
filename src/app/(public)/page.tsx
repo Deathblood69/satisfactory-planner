@@ -1,12 +1,8 @@
 'use client'
 
-import {Fragment} from 'react'
-import HomePage from '@/ui/HomePage'
+import {redirect} from 'next/navigation'
+import {ROUTES_CONFIG} from '@/config/routes.config'
 
 export default function Page() {
-  return (
-    <Fragment>
-      <HomePage />
-    </Fragment>
-  )
+  return redirect(ROUTES_CONFIG.lists)
 }

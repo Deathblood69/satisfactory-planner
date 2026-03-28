@@ -4,9 +4,7 @@ import {Fragment, useMemo} from 'react'
 import {Stack} from '@mui/material'
 import AppTabs, {TabItem} from '@/components/AppTabs'
 import TasksTab from '@/ui/tasks/TasksTab'
-import ListForm from '@/ui/lists/form/ListForm'
-import ListFormLayout from '@/ui/lists/form/ListFormLayout'
-import ListFields from '@/ui/lists/form/ListFields'
+import ListTab from '@/ui/lists/ListTab'
 import CategoryTab from '@/ui/categories/CategoryTab'
 
 interface Props {
@@ -19,13 +17,7 @@ export default function ListPage({id}: Props) {
       {
         id: 0,
         label: 'Information',
-        children: (
-          <ListFormLayout id={id}>
-            <ListForm id={id}>
-              <ListFields />
-            </ListForm>
-          </ListFormLayout>
-        )
+        children: <ListTab id={id} />
       },
       {id: 1, label: 'Categories', children: <CategoryTab listId={id} />},
       {id: 2, label: 'Tasks', children: <TasksTab listId={id} />}

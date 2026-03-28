@@ -8,6 +8,7 @@ import {ListDTO} from '@/dto/lists/ListDTO'
 import {useQuery} from '@tanstack/react-query'
 import getEntityById from '@/queries/getEntityById'
 import {TaskAdd} from '@/ui/tasks/TaskAdd'
+import {API_CONFIG} from '@/config/api.config'
 
 interface Props {
   listId: string
@@ -15,8 +16,8 @@ interface Props {
 
 export default function TasksTab({listId}: Props) {
   const {data: list} = useQuery({
-    queryKey: ['lists', listId],
-    queryFn: () => getEntityById<ListDTO>('lists', listId)
+    queryKey: [API_CONFIG.lists, listId],
+    queryFn: () => getEntityById<ListDTO>(API_CONFIG.lists, listId)
   })
 
   const [selectedCategory, setCategory] = useState<CategoryDTO>()

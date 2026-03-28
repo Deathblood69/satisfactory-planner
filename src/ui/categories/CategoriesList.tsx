@@ -5,6 +5,7 @@ import ListItemText from '@mui/material/ListItemText'
 import {useQuery} from '@tanstack/react-query'
 import {CategoryDTO} from '@/dto/CategoryDTO'
 import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
+import {API_CONFIG} from '@/config/api.config'
 
 interface Props {
   idList: string
@@ -18,9 +19,13 @@ export default function CategoriesList({
   handleCategoryChange
 }: Props) {
   const {data: categories} = useQuery({
-    queryKey: ['categories'],
+    queryKey: [API_CONFIG.categories],
     queryFn: () =>
-      getEntitiesByProperty<CategoryDTO>('categories', 'listId', idList)
+      getEntitiesByProperty<CategoryDTO>(
+        API_CONFIG.categories,
+        'listId',
+        idList
+      )
   })
 
   if (!categories || categories.length === 0) return null

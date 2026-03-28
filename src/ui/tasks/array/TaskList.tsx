@@ -10,6 +10,7 @@ import {CategoryDTO} from '@/dto/CategoryDTO'
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import getAllEntities from '@/queries/getAllEntities'
 import TaskItem from '@/ui/tasks/array/TaskItem'
+import {API_CONFIG} from '@/config/api.config'
 
 const API_TASKS = 'http://localhost:3001/tasks'
 
@@ -22,13 +23,13 @@ export function TaskList({idList, selectedCategory}: Props) {
   const queryClient = useQueryClient()
 
   const {data: categories} = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => getAllEntities<CategoryDTO[]>('categories')
+    queryKey: [API_CONFIG.categories],
+    queryFn: () => getAllEntities<CategoryDTO[]>(API_CONFIG.categories)
   })
 
   const {data: tasks} = useQuery({
-    queryKey: ['tasks', idList],
-    queryFn: () => getAllEntities<TaskDTO[]>('tasks')
+    queryKey: [API_CONFIG.tasks, idList],
+    queryFn: () => getAllEntities<TaskDTO[]>(API_CONFIG.tasks)
   })
 
   const {mutate: onToggle} = useMutation({
@@ -40,14 +41,16 @@ export function TaskList({idList, selectedCategory}: Props) {
       })
       return res.json()
     },
-    onSuccess: () => queryClient.invalidateQueries({queryKey: ['tasks']})
+    onSuccess: () =>
+      queryClient.invalidateQueries({queryKey: [API_CONFIG.tasks]})
   })
 
   const {mutate: onDelete} = useMutation({
     mutationFn: async (taskId: string) => {
       await fetch(`${API_TASKS}/${taskId}`, {method: 'DELETE'})
     },
-    onSuccess: () => queryClient.invalidateQueries({queryKey: ['tasks']})
+    onSuccess: () =>
+      queryClient.invalidateQueries({queryKey: [API_CONFIG.tasks]})
   })
 
   return (

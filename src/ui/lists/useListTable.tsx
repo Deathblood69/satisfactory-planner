@@ -13,6 +13,7 @@ import {useRouter} from 'next/navigation'
 import {ListService} from '@/services/ListService'
 import useForm from '@/hooks/useForm'
 import usePagination from '@/hooks/usePagination'
+import {API_CONFIG} from '@/config/api.config'
 
 type Ids = readonly string[] | undefined
 
@@ -20,9 +21,9 @@ export default function useListTable() {
   const router = useRouter()
 
   const {error, isPending, rows, sorting, paginating, selecting} =
-    usePagination<ListDTO>('lists')
+    usePagination<ListDTO>(API_CONFIG.lists)
 
-  const {onSubmit: onDelete} = useForm<Ids, Ids>('lists', {
+  const {onSubmit: onDelete} = useForm<Ids, Ids>(API_CONFIG.lists, {
     onTrigger: ListService.deleteByIds,
     onSuccess: () => {
       if (selecting.onSelectedChange) {

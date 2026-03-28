@@ -1,18 +1,18 @@
 import * as React from 'react'
-import {ReactNode} from 'react'
 import {ListCreateDTO} from '@/dto/lists/ListCreateDTO'
 import {ListDTO} from '@/dto/lists/ListDTO'
 import {ListService} from '@/services/ListService'
 import {FormProvider} from '@/providers/FormProvider'
 import {ROUTES_CONFIG} from '@/config/routes.config'
-import {usePathname, useRouter} from 'next/navigation'
+import {useRouter} from 'next/navigation'
 import {Card, Stack} from '@mui/material'
 import Typography from '@mui/material/Typography'
-import Tooltip from '@mui/material/Tooltip'
-import IconButton from '@mui/material/IconButton'
-import {Edit} from '@mui/icons-material'
 import {useQuery} from '@tanstack/react-query'
 import getEntityById from '@/queries/getEntityById'
+import ListFields from '@/ui/lists/form/ListFields'
+import SaveButton from '@/components/SaveButton'
+import Button from '@mui/material/Button'
+import {API_CONFIG} from '@/config/api.config'
 
 const defaultForm: ListCreateDTO = {
   name: '',
@@ -21,16 +21,14 @@ const defaultForm: ListCreateDTO = {
 
 interface Props {
   id?: string
-  children: ReactNode
 }
 
-export default function ListFormLayout({id, children}: Props) {
+export default function ListTab({id}: Props) {
   const router = useRouter()
-  const pathname = usePathname()
 
   const {data: list} = useQuery({
-    queryKey: ['lists', id],
-    queryFn: () => getEntityById<ListDTO>('lists', id),
+    queryKey: [API_CONFIG.lists, id],
+    queryFn: () => getEntityById<ListDTO>(API_CONFIG.lists, id),
     enabled: !!id
   })
 
@@ -44,15 +42,15 @@ export default function ListFormLayout({id, children}: Props) {
     return entity
   }
 
-  function handleEdit() {
-    router.push(`${ROUTES_CONFIG.lists}/${id}`)
+  function handleCancel() {
+    router.push(`${ROUTES_CONFIG.lists}`)
   }
 
   return (
     <Card>
       <FormProvider<ListCreateDTO, ListDTO>
         id={id}
-        entity={'lists'}
+        entity={API_CONFIG.lists}
         defaultForm={defaultForm}
         onSave={handleSave}
       >
@@ -74,15 +72,16 @@ export default function ListFormLayout({id, children}: Props) {
             >
               {list?.name}
             </Typography>
-            {pathname !== `${ROUTES_CONFIG.lists}/${id}` && (
-              <Tooltip title={'Edit'}>
-                <IconButton>
-                  <Edit onClick={handleEdit} />
-                </IconButton>
-              </Tooltip>
-            )}
           </Stack>
-          {children}
+
+          <ListFields />
+          <SaveButton edited={Boolean(id)} />
+          <Button
+            variant={'outlined'}
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
         </Stack>
       </FormProvider>
     </Card>

@@ -5,6 +5,7 @@ import {CategoryDTO} from '@/dto/CategoryDTO'
 import AppAutocomplete from '@/components/AppAutocomplete'
 import {useQuery} from '@tanstack/react-query'
 import getEntityById from '@/queries/getEntityById'
+import {API_CONFIG} from '@/config/api.config'
 
 interface Props {
   idList: string
@@ -12,8 +13,8 @@ interface Props {
 
 export function TaskAdd({idList}: Props) {
   const {data: categories} = useQuery({
-    queryKey: ['categories', idList],
-    queryFn: () => getEntityById<CategoryDTO[]>('categories', idList)
+    queryKey: [API_CONFIG.categories, idList],
+    queryFn: () => getEntityById<CategoryDTO[]>(API_CONFIG.categories, idList)
   })
 
   function getOptionLabel(option: CategoryDTO) {
