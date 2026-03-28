@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useMemo} from 'react'
 import {Action, HeadCell, RowAction} from '@/components/table'
-import {ListDTO} from '@/dto/ListDTO'
+import {ListDTO} from '@/dto/lists/ListDTO'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import {FilterList, Launch} from '@mui/icons-material'

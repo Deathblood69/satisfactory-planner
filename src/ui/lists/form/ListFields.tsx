@@ -1,7 +1,7 @@
 import {Stack, Switch, TextField} from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import {useFormContext} from '@/providers/FormProvider'
-import {ListCreateDTO} from '@/dto/ListCreateDTO'
+import {ListCreateDTO} from '@/dto/lists/ListCreateDTO'
 import {Fragment} from 'react'
 
 export default function ListFields() {

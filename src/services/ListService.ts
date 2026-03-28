@@ -1,6 +1,6 @@
 import {fetchEntity} from '@/utils/fetchEntity'
-import {ListDTO} from '@/dto/ListDTO'
-import {ListCreateDTO} from '@/dto/ListCreateDTO'
+import {ListDTO} from '@/dto/lists/ListDTO'
+import {ListCreateDTO} from '@/dto/lists/ListCreateDTO'
 
 export class ListService {
   static async createList(dto: ListCreateDTO) {

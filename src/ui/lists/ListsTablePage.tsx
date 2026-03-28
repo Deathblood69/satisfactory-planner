@@ -3,7 +3,7 @@
 import * as React from 'react'
 import {Fragment} from 'react'
 
-import {ListDTO} from '@/dto/ListDTO'
+import {ListDTO} from '@/dto/lists/ListDTO'
 import AsyncStatus from '@/components/AsyncStatus'
 import useListTable from '@/ui/lists/useListTable'
 import {EnhancedTable} from '@/components/table'
