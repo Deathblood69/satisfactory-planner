@@ -1,17 +1,16 @@
-import postList from '@/queries/postList'
-import {IdService} from '@/services/IdService'
+import {fetchEntity} from '@/utils/fetchEntity'
+import {ListDTO} from '@/dto/ListDTO'
+import {ListCreateDTO} from '@/dto/ListCreateDTO'
 
 export class ListService {
-  instance?: string
-
-  constructor() {
-    this.instance = IdService.generateId('v4')
+  static async createList(dto: ListCreateDTO) {
+    return fetchEntity<ListDTO>('lists', {
+      method: 'POST',
+      body: JSON.stringify(dto)
+    })
   }
 
-  async initGame() {
-    const id = IdService.generateId('v4')
-    await postList(id).then((data) => {
-      console.log(data)
-    })
+  static async getAllLists() {
+    return fetchEntity<ListDTO[]>('lists')
   }
 }

@@ -4,9 +4,10 @@ import ThemeSwitch from '@/components/ThemeSwitch'
 import {AppLinkInterface} from '@/types'
 import AppLink from '@/components/AppLink'
 import {Add} from '@mui/icons-material'
+import {ROUTES_CONFIG} from '@/config/routes.config'
 
 const links: AppLinkInterface[] = [
-  {label: 'New Game', url: '/game', icon: <Add />}
+  {label: 'New Game', url: `${ROUTES_CONFIG.lists}`, icon: <Add />}
 ]
 
 export default function HomePage() {
