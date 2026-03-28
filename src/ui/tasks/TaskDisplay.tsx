@@ -3,12 +3,14 @@ import {TaskList} from '@/ui/tasks/TaskList'
 import {Stack} from '@mui/material'
 import CategoriesList from '@/ui/categories/CategoriesList'
 import {CategoryDTO} from '@/dto/CategoryDTO'
+import Typography from '@mui/material/Typography'
+import {ListDTO} from '@/dto/ListDTO'
 
 interface Props {
-  idList?: string
+  list?: ListDTO
 }
 
-export default function TaskDisplay({idList}: Props) {
+export default function TaskDisplay({list}: Props) {
   const [selectedCategory, setCategory] = useState<CategoryDTO>()
 
   function handleCategoryChange(category?: CategoryDTO) {
@@ -17,6 +19,13 @@ export default function TaskDisplay({idList}: Props) {
 
   return (
     <Fragment>
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        gutterBottom
+      >
+        {list?.name}
+      </Typography>
       <Stack
         spacing={2}
         direction="row"
@@ -26,7 +35,7 @@ export default function TaskDisplay({idList}: Props) {
           handleCategoryChange={handleCategoryChange}
         />
         <TaskList
-          idList={idList}
+          idList={list?.name}
           selectedCategory={selectedCategory}
         />
       </Stack>
