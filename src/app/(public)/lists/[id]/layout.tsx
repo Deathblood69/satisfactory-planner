@@ -17,5 +17,5 @@ export default function Layout({children}: Props): ReactNode {
     return notFound()
   }
 
-  return <ListFormLayout>{children}</ListFormLayout>
+  return <ListFormLayout id={id}>{children}</ListFormLayout>
 }

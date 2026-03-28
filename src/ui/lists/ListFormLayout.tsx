@@ -36,6 +36,7 @@ export default function ListFormLayout({id, children}: Props) {
   return (
     <Fragment>
       <FormProvider<ListCreateDTO, ListDTO>
+        id={id}
         entity={'lists'}
         defaultForm={defaultForm}
         onSave={handleSave}

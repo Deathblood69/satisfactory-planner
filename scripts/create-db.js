@@ -20,9 +20,9 @@ if (!fs.existsSync(sourceFile)) {
 // Supprimer l’ancien db.json s’il existe
 if (fs.existsSync(targetFile)) {
   fs.unlinkSync(targetFile)
-  console.log('Ancien db.json supprimé')
+  console.info('Ancien db.json supprimé')
 }
 
 // Copier le fichier
 fs.copyFileSync(sourceFile, targetFile)
-console.log('db.json créé à partir de', sourceFile)
+console.info('db.json créé à partir de', sourceFile)

@@ -1,10 +1,11 @@
 'use client'
 
-import {createContext, ReactNode, useContext, useState} from 'react'
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react'
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 import getEntityById from '@/queries/getEntityById'
 
 interface Props<Form, Response> {
+  id?: string
   entity: string
   defaultForm: Form
   onSave: (data: Form) => Promise<Response>
@@ -24,6 +25,7 @@ interface FormContextType<Form> {
 const FormContext = createContext<FormContextType<any> | null>(null)
 
 export function FormProvider<Form, Response>({
+  id,
   entity,
   defaultForm,
   onSave,
@@ -34,12 +36,24 @@ export function FormProvider<Form, Response>({
 
   const [state, setState] = useState<Partial<Form>>(defaultForm)
 
-  const fetchMutation = useMutation({
+  const {
+    mutate: mutateFetchEdited,
+    error: errorFetchEdited,
+    isPending: isPendingFetchEdited,
+    isError: isErrorFetchEdited
+  } = useMutation({
     mutationFn: (id: string) => getEntityById<Form>(entity, id),
-    onSuccess: (data) => handleChangeForm(data)
+    onSuccess: (data) => {
+      handleChangeForm(data)
+    }
   })
 
-  const saveMutation = useMutation<Response, unknown, Form>({
+  const {
+    mutate: mutateSave,
+    error: errorSave,
+    isPending: isPendingSave,
+    isError: isErrorSave
+  } = useMutation<Response, unknown, Form>({
     mutationFn: async (dto) => {
       return await onSave(dto)
     },
@@ -51,6 +65,12 @@ export function FormProvider<Form, Response>({
     }
   })
 
+  useEffect(() => {
+    if (id && id !== 'new') {
+      mutateFetchEdited(id)
+    }
+  }, [mutateFetchEdited, id])
+
   function handleChangeForm(newState: Partial<Form>) {
     setState((prev) => (prev ? {...prev, ...newState} : newState))
   }
@@ -59,10 +79,10 @@ export function FormProvider<Form, Response>({
     <FormContext.Provider
       value={{
         form: state,
-        error: (saveMutation.error || fetchMutation.error) as Error,
-        isPending: saveMutation.isPending || fetchMutation.isPending,
-        isError: saveMutation.isError,
-        onSubmit: saveMutation.mutate,
+        error: (errorFetchEdited || errorSave) as Error,
+        isPending: isPendingFetchEdited || isPendingSave,
+        isError: isErrorFetchEdited || isErrorSave,
+        onSubmit: mutateSave,
         onChangeForm: handleChangeForm
       }}
     >
