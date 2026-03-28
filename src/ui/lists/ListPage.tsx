@@ -1,6 +1,6 @@
 'use client'
 
-import {Fragment, useMemo} from 'react'
+import {Fragment, useMemo, useState} from 'react'
 import {Card, Stack} from '@mui/material'
 import AppTabs, {TabItem} from '@/components/AppTabs'
 import TasksForm from '@/ui/tasks/TasksForm'
@@ -12,6 +12,7 @@ import {API_CONFIG} from '@/config/api.config'
 import getEntityById from '@/queries/getEntityById'
 import {ListDTO} from '@/dto/lists/ListDTO'
 import AppChip from '@/components/AppChip'
+import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 
 interface Props {
   id: string
@@ -24,6 +25,8 @@ export default function ListPage({id}: Props) {
     enabled: !!id
   })
 
+  const [category, setCategory] = useState<CategoryDTO>()
+
   const items: TabItem[] = useMemo(() => {
     return [
       {
@@ -31,10 +34,30 @@ export default function ListPage({id}: Props) {
         label: 'Information',
         children: <ListForm id={id} />
       },
-      {id: 1, label: 'Categories', children: <CategoryForm listId={id} />},
-      {id: 2, label: 'Tasks', children: <TasksForm listId={id} />}
+      {
+        id: 1,
+        label: 'Categories',
+        children: (
+          <CategoryForm
+            listId={id}
+            value={category}
+            setValue={setCategory}
+          />
+        )
+      },
+      {
+        id: 2,
+        label: 'Tasks',
+        children: (
+          <TasksForm
+            listId={id}
+            category={category}
+            setCategory={setCategory}
+          />
+        )
+      }
     ]
-  }, [id])
+  }, [category, id])
 
   return (
     <Fragment>

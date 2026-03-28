@@ -1,4 +1,4 @@
-import {TaskDTO} from '@/dto/TaskDTO'
+import {TaskDTO} from '@/dto/tasks/TaskDTO'
 import {Checkbox, IconButton, Stack, Typography} from '@mui/material'
 import {Delete} from '@mui/icons-material'
 
@@ -27,7 +27,7 @@ export default function TaskItem({task, onToggle, onDelete}: Props) {
           flex: 1
         }}
       >
-        {task.title}
+        {task.name}
       </Typography>
       {onDelete && (
         <IconButton onClick={() => onDelete(task.id)}>

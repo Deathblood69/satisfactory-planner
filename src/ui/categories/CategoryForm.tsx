@@ -2,7 +2,7 @@
 
 import {Stack} from '@mui/material'
 import * as React from 'react'
-import {useMemo, useState} from 'react'
+import {Dispatch, SetStateAction, useMemo} from 'react'
 import {API_CONFIG} from '@/config/api.config'
 import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import {FormProvider} from '@/providers/FormProvider'
@@ -14,11 +14,11 @@ import CategoryAdd from '@/ui/categories/CategoryAdd'
 interface Props {
   id?: string
   listId: string
+  value: CategoryDTO | undefined
+  setValue: Dispatch<SetStateAction<CategoryDTO | undefined>>
 }
 
-export default function CategoryForm({id, listId}: Props) {
-  const [category, setCategory] = useState<CategoryDTO>()
-
+export default function CategoryForm({id, listId, value, setValue}: Props) {
   const defaultForm: CategoryCreateDTO = useMemo(() => {
     return {
       name: '',
@@ -27,7 +27,7 @@ export default function CategoryForm({id, listId}: Props) {
   }, [listId])
 
   function handleCategoryChange(category?: CategoryDTO) {
-    setCategory(category)
+    setValue(category)
   }
 
   async function handleSave(dto: CategoryCreateDTO) {
@@ -58,13 +58,13 @@ export default function CategoryForm({id, listId}: Props) {
         sx={{mb: 2}}
       >
         <CategoryAdd
-          value={category}
-          setValue={setCategory}
+          value={value}
+          setValue={setValue}
         />
       </Stack>
       <CategoriesList
         idList={listId}
-        selectedCategory={category}
+        selectedCategory={value}
         handleCategoryChange={handleCategoryChange}
       />
     </FormProvider>

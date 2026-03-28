@@ -1,32 +1,17 @@
 'use client'
 
 import {Stack, TextField} from '@mui/material'
-import {CategoryDTO} from '@/dto/categories/CategoryDTO'
-import AppAutocomplete from '@/components/AppAutocomplete'
-import {useQuery} from '@tanstack/react-query'
-import {API_CONFIG} from '@/config/api.config'
-import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
 import AppButton from '@/components/AppButton'
 import {Add} from '@mui/icons-material'
 import * as React from 'react'
+import {useFormContext} from '@/providers/FormProvider'
+import {CategoryCreateDTO} from '@/dto/categories/CategoryCreateDTO'
 
-interface Props {
-  idList: string
-}
+export function TaskAdd() {
+  const {form, onChangeForm} = useFormContext<CategoryCreateDTO>()
 
-export function TaskAdd({idList}: Props) {
-  const {data: categories} = useQuery({
-    queryKey: [API_CONFIG.categories],
-    queryFn: () =>
-      getEntitiesByProperty<CategoryDTO>(
-        API_CONFIG.categories,
-        'listId',
-        idList
-      )
-  })
-
-  function getOptionLabel(option: CategoryDTO) {
-    return option.name
+  function handleChange(value: string) {
+    onChangeForm({name: value ?? ''})
   }
 
   return (
@@ -36,13 +21,12 @@ export function TaskAdd({idList}: Props) {
       sx={{mb: 2}}
     >
       <TextField
+        id={'name'}
+        name={'name'}
+        label={'Name'}
+        value={form.name}
+        onChange={(event) => handleChange(event.target.value)}
         fullWidth
-        label="New task"
-      />
-      <AppAutocomplete<CategoryDTO>
-        title="Categories"
-        items={categories}
-        getOptionLabel={getOptionLabel}
       />
       <AppButton type={'submit'}>
         <Add />

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Dispatch, Fragment, SetStateAction, useMemo} from 'react'
+import {Dispatch, Fragment, SetStateAction, useEffect} from 'react'
 import {useFormContext} from '@/providers/FormProvider'
 import {CategoryCreateDTO} from '@/dto/categories/CategoryCreateDTO'
 import {TextField} from '@mui/material'
@@ -15,17 +15,13 @@ interface CategoryAddProps {
 export default function CategoryAdd({value, setValue}: CategoryAddProps) {
   const {form, onChangeForm, onDeleteForm} = useFormContext<CategoryCreateDTO>()
 
-  const currentValue = useMemo(() => {
-    return form.name
-  }, [form.name])
-
   function handleChange(value: string) {
-    console.log(value)
     setValue((prevState) => prevState && {...prevState, name: value})
-    onChangeForm({
-      name: value
-    })
   }
+
+  useEffect(() => {
+    onChangeForm({name: value?.name ?? ''})
+  }, [onChangeForm, value])
 
   return (
     <Fragment>
@@ -33,9 +29,9 @@ export default function CategoryAdd({value, setValue}: CategoryAddProps) {
         id={'name'}
         name={'name'}
         label={'Name'}
-        value={currentValue}
-        fullWidth
+        value={form.name}
         onChange={(event) => handleChange(event.target.value)}
+        fullWidth
       />
       <AppButton type={'submit'}>{value?.id ? <Save /> : <Add />}</AppButton>
       {value?.id && (

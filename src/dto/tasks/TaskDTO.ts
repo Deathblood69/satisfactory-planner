@@ -1,6 +1,6 @@
 export interface TaskDTO {
   id: string
-  title: string
+  name: string
   completed: boolean
   categoryId: string | null
 }
