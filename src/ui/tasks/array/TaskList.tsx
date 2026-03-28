@@ -6,7 +6,7 @@ import sortTaskById from '@/utils/sortTaskById'
 import {filterTasksByCategory} from '@/utils/filterTasksByCategory'
 import sortArrayByProperty from '@/utils/sortArrayByProperty'
 import {TaskDTO} from '@/dto/TaskDTO'
-import {CategoryDTO} from '@/dto/CategoryDTO'
+import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import getAllEntities from '@/queries/getAllEntities'
 import TaskItem from '@/ui/tasks/array/TaskItem'
@@ -52,6 +52,10 @@ export function TaskList({idList, selectedCategory}: Props) {
     onSuccess: () =>
       queryClient.invalidateQueries({queryKey: [API_CONFIG.tasks]})
   })
+
+  if (!tasks || tasks.length === 0) {
+    return
+  }
 
   return (
     <Stack

@@ -3,9 +3,10 @@ import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import {useQuery} from '@tanstack/react-query'
-import {CategoryDTO} from '@/dto/CategoryDTO'
+
 import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
 import {API_CONFIG} from '@/config/api.config'
+import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 
 interface Props {
   idList: string

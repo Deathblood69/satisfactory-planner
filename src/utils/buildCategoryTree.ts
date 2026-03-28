@@ -1,4 +1,4 @@
-import {CategoryDTO} from '@/dto/CategoryDTO'
+import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 
 type CategoryTree = CategoryDTO & {
   children: CategoryTree[]

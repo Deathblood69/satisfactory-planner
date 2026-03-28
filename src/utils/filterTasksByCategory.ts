@@ -1,4 +1,4 @@
-import {CategoryDTO} from '@/dto/CategoryDTO'
+import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import {TaskDTO} from '@/dto/TaskDTO'
 
 export function filterTasksByCategory(array: TaskDTO[], category: CategoryDTO) {

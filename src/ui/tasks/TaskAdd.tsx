@@ -1,11 +1,12 @@
 'use client'
 
-import {Button, Stack, TextField} from '@mui/material'
-import {CategoryDTO} from '@/dto/CategoryDTO'
+import {Stack, TextField} from '@mui/material'
+import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import AppAutocomplete from '@/components/AppAutocomplete'
 import {useQuery} from '@tanstack/react-query'
-import getEntityById from '@/queries/getEntityById'
 import {API_CONFIG} from '@/config/api.config'
+import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
+import AddButton from '@/components/AddButton'
 
 interface Props {
   idList: string
@@ -13,8 +14,13 @@ interface Props {
 
 export function TaskAdd({idList}: Props) {
   const {data: categories} = useQuery({
-    queryKey: [API_CONFIG.categories, idList],
-    queryFn: () => getEntityById<CategoryDTO[]>(API_CONFIG.categories, idList)
+    queryKey: [API_CONFIG.categories],
+    queryFn: () =>
+      getEntitiesByProperty<CategoryDTO>(
+        API_CONFIG.categories,
+        'listId',
+        idList
+      )
   })
 
   function getOptionLabel(option: CategoryDTO) {
@@ -29,14 +35,14 @@ export function TaskAdd({idList}: Props) {
     >
       <TextField
         fullWidth
-        label="Nouvelle tâche"
+        label="New task"
       />
       <AppAutocomplete<CategoryDTO>
-        title="Catégories"
+        title="Categories"
         items={categories}
         getOptionLabel={getOptionLabel}
       />
-      <Button variant="contained">{'Ajouter'}</Button>
+      <AddButton />
     </Stack>
   )
 }
