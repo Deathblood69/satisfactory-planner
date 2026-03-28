@@ -1,10 +1,10 @@
 import {Fragment} from 'react'
-import ListsDisplay from '@/ui/lists/ListsDisplay'
+import ListsTablePage from '@/ui/lists/ListsTablePage'
 
 export default function HomePage() {
   return (
     <Fragment>
-      <ListsDisplay />
+      <ListsTablePage />
     </Fragment>
   )
 }

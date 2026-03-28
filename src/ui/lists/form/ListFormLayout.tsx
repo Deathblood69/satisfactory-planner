@@ -44,10 +44,6 @@ export default function ListFormLayout({id, children}: Props) {
     return entity
   }
 
-  function handleSuccess() {
-    router.push(`${ROUTES_CONFIG.lists}`)
-  }
-
   function handleEdit() {
     router.push(`${ROUTES_CONFIG.lists}/${id}`)
   }
@@ -59,7 +55,6 @@ export default function ListFormLayout({id, children}: Props) {
         entity={'lists'}
         defaultForm={defaultForm}
         onSave={handleSave}
-        onSuccess={handleSuccess}
       >
         <Stack
           direction="column"

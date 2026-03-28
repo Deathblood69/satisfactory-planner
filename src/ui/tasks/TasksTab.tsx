@@ -1,22 +1,22 @@
 import * as React from 'react'
 import {Fragment, useState} from 'react'
-import {TaskList} from '@/ui/tasks/TaskList'
+import {TaskList} from '@/ui/tasks/array/TaskList'
 import {Stack} from '@mui/material'
 import CategoriesList from '@/ui/categories/CategoriesList'
 import {CategoryDTO} from '@/dto/CategoryDTO'
 import {ListDTO} from '@/dto/ListDTO'
 import {useQuery} from '@tanstack/react-query'
 import getEntityById from '@/queries/getEntityById'
-import {TaskForm} from '@/ui/tasks/TaskForm'
+import {TaskAdd} from '@/ui/tasks/TaskAdd'
 
 interface Props {
-  id: string
+  listId: string
 }
 
-export default function ListDetail({id}: Props) {
+export default function TasksTab({listId}: Props) {
   const {data: list} = useQuery({
-    queryKey: ['lists', id],
-    queryFn: () => getEntityById<ListDTO>('lists', id)
+    queryKey: ['lists', listId],
+    queryFn: () => getEntityById<ListDTO>('lists', listId)
   })
 
   const [selectedCategory, setCategory] = useState<CategoryDTO>()
@@ -45,7 +45,7 @@ export default function ListDetail({id}: Props) {
           spacing={2}
           sx={{width: '100%'}}
         >
-          <TaskForm idList={list?.id} />
+          <TaskAdd idList={list?.id} />
           <TaskList
             idList={list?.id}
             selectedCategory={selectedCategory}

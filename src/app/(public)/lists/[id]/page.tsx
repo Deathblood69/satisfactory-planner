@@ -1,7 +1,7 @@
 'use client'
 
 import {notFound, useParams} from 'next/navigation'
-import ListForm from '@/ui/lists/ListForm'
+import ListPage from '@/ui/lists/ListPage'
 
 export default function Page() {
   const params = useParams()
@@ -12,5 +12,5 @@ export default function Page() {
     return notFound()
   }
 
-  return <ListForm id={id} />
+  return <ListPage id={id} />
 }

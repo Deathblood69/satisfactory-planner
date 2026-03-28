@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {useMemo} from 'react'
-import {Action, HeadCell, RowAction} from '@/components/table/EnhancedTable'
+import {Action, HeadCell, RowAction} from '@/components/table'
 import {ListDTO} from '@/dto/ListDTO'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import {Edit, FilterList, Launch} from '@mui/icons-material'
+import {FilterList, Launch} from '@mui/icons-material'
 import DeleteButton from '@/components/DeleteButton'
 import NewButton from '@/components/NewButton'
 import {ROUTES_CONFIG} from '@/config/routes.config'
@@ -62,9 +62,7 @@ export default function useListTable() {
         render: (value) => (
           <Tooltip title={'View details'}>
             <IconButton
-              onClick={() =>
-                router.push(`${ROUTES_CONFIG.lists}/${value.id}/tasks`)
-              }
+              onClick={() => router.push(`${ROUTES_CONFIG.lists}/${value.id}`)}
             >
               <Launch />
             </IconButton>
@@ -80,12 +78,6 @@ export default function useListTable() {
         case 'new':
           router.push(`${ROUTES_CONFIG.lists}/new`)
           break
-        case 'view':
-          router.push(`${ROUTES_CONFIG.lists}/${selected[0]}/tasks`)
-          break
-        case 'edit':
-          router.push(`${ROUTES_CONFIG.lists}/${selected[0]}`)
-          break
         case 'delete':
           onDelete(selected)
           break
@@ -98,17 +90,6 @@ export default function useListTable() {
       {
         id: 'new',
         children: selecting.selected.length === 0 && <NewButton />,
-        onClick: handleClickAction
-      },
-      {
-        id: 'edit',
-        children: selecting.selected.length === 1 && (
-          <Tooltip title={'Edit'}>
-            <IconButton>
-              <Edit />
-            </IconButton>
-          </Tooltip>
-        ),
         onClick: handleClickAction
       },
       {

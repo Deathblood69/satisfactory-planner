@@ -8,7 +8,7 @@ import AsyncStatus from '@/components/AsyncStatus'
 import useListTable from '@/ui/lists/useListTable'
 import {EnhancedTable} from '@/components/table'
 
-export default function ListsDisplay() {
+export default function ListsTablePage() {
   const {
     headCells,
     actions,
