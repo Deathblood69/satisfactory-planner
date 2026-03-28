@@ -23,7 +23,7 @@ export interface HeadCell<T> {
 }
 
 export interface RowAction<T> {
-  id: keyof T
+  id: string
   label: string
   render: (value: T) => ReactNode
 }

@@ -78,7 +78,7 @@ export default function ListsDisplay() {
           </Tooltip>
         )
       }
-    ]
+    ] as RowAction<ListDTO>[]
   }, [router])
 
   const handleClickAction = useMemo(() => {
