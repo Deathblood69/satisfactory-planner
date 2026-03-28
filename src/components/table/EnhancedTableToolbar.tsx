@@ -1,19 +1,13 @@
 'use client'
 
 import * as React from 'react'
-import {ReactNode} from 'react'
 import {alpha} from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import {Action} from './index'
 
-interface Action {
-  id: string
-  children: ReactNode
-  onClick?: (actionId: string, selected: readonly string[]) => void
-}
-
-interface EnhancedTableToolbarProps {
+interface Props {
   title?: string
   actions: readonly Action[]
   selected: readonly string[]
@@ -25,7 +19,7 @@ export function EnhancedTableToolbar({
   actions,
   selected,
   numSelected
-}: EnhancedTableToolbarProps) {
+}: Props) {
   return (
     <Toolbar
       sx={[

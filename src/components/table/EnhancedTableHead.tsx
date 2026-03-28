@@ -8,9 +8,9 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Checkbox from '@mui/material/Checkbox'
 import {visuallyHidden} from '@mui/utils'
-import {HeadCell, RowAction} from '@/components/EnhancedTable'
+import {HeadCell, RowAction} from './index'
 
-interface EnhancedTableHeadProps<T extends {id: string}> {
+interface Props<T extends {id: string}> {
   numSelected: number
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -30,7 +30,7 @@ export function EnhancedTableHead<T extends {id: string}>({
   onRequestSort,
   headCells,
   rowActions
-}: EnhancedTableHeadProps<T>) {
+}: Props<T>) {
   const createSortHandler =
     (property: keyof T) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property)
