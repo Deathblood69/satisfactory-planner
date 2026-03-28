@@ -22,7 +22,7 @@ interface EnhancedTableHeadProps<T extends {id: string}> {
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
   order: 'asc' | 'desc'
   orderBy: keyof T
-  rowCount: number
+  rowCount?: number
   headCells: readonly HeadCell<T>[]
 }
 
@@ -46,8 +46,12 @@ export function EnhancedTableHead<T extends {id: string}>({
         <TableCell padding="checkbox">
           <Checkbox
             color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
+            indeterminate={
+              !rowCount ? false : numSelected > 0 && numSelected < rowCount
+            }
+            checked={
+              !rowCount ? false : rowCount > 0 && numSelected === rowCount
+            }
             onChange={onSelectAllClick}
           />
         </TableCell>

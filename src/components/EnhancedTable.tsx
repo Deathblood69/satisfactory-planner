@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import {useMemo} from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -10,8 +11,6 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Checkbox from '@mui/material/Checkbox'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Switch from '@mui/material/Switch'
 import {EnhancedTableToolbar} from '@/components/EnhancedTableToolbar'
 import {EnhancedTableHead} from '@/components/EnhancedTableHead'
 
@@ -24,83 +23,81 @@ export type HeadCell<T> = {
 
 interface EnhancedTableProps<T extends {id: string}> {
   title?: string
-  rows: T[]
+  rows?: T[]
   headCells: readonly HeadCell<T>[]
-  order: Order
-  orderBy?: keyof T
+  order: 'asc' | 'desc'
+  orderBy: keyof T
+  dense?: boolean
+  count?: number
+  page: number
+  rowsPerPage: number
+  selected: readonly string[]
+  onOrderChange?: (order: 'asc' | 'desc', orderBy: keyof T) => void
+  onPageChange?: (page: number) => void
+  onRowsPerPageChange?: (rowsPerPage: number) => void
+  onSelectedChange?: (selected: readonly string[]) => void
 }
 
 export default function EnhancedTable<T extends {id: string}>({
   title = '',
-  rows,
+  rows = [],
   headCells,
   order,
-  orderBy
+  orderBy,
+  dense,
+  count,
+  page,
+  rowsPerPage,
+  selected,
+  onOrderChange,
+  onPageChange,
+  onRowsPerPageChange,
+  onSelectedChange
 }: EnhancedTableProps<T>) {
-  const [currentOrder, setCurrentOrder] = React.useState<Order>(order ?? 'asc')
-  const [currentOrderBy, setCurrentOrderBy] = React.useState<keyof T>(
-    orderBy ?? 'id'
-  )
-  const [selected, setSelected] = React.useState<readonly string[]>([])
-  const [page, setPage] = React.useState(0)
-  const [dense, setDense] = React.useState(false)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
-  const handleRequestSort = (
-    _event: React.MouseEvent<unknown>,
-    property: keyof T
-  ) => {
-    const isAsc = currentOrderBy === property && currentOrder === 'asc'
-    setCurrentOrder(isAsc ? 'desc' : 'asc')
-    setCurrentOrderBy(property)
+  const handleSort = (_: React.MouseEvent<unknown>, property: keyof T) => {
+    const isAsc = orderBy === property && order === 'asc'
+    const newOrder: Order = isAsc ? 'desc' : 'asc'
+    onOrderChange?.(newOrder, property)
   }
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setSelected(rows.map((n) => n.id))
-      return
-    }
-    setSelected([])
+  const handleChangePage = (_: unknown, newPage: number) => {
+    onPageChange?.(newPage)
   }
 
-  const handleClick = (_: React.MouseEvent<unknown>, id: string) => {
-    const selectedIndex = selected.indexOf(id)
-    let newSelected: readonly string[] = []
-
-    if (selectedIndex === -1) newSelected = newSelected.concat(selected, id)
-    else if (selectedIndex === 0)
-      newSelected = newSelected.concat(selected.slice(1))
-    else if (selectedIndex === selected.length - 1)
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    else if (selectedIndex > 0)
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
-
-    setSelected(newSelected)
-  }
-
-  const handleChangePage = (_: unknown, newPage: number) => setPage(newPage)
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
+    onRowsPerPageChange?.(parseInt(event.target.value, 10))
   }
-  const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setDense(event.target.checked)
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSelected = event.target.checked ? rows.map((n) => n.id) : []
+    onSelectedChange?.(newSelected)
+  }
 
-  const visibleRows = React.useMemo(
-    () =>
-      [...rows]
-        .sort(getComparator(currentOrder, currentOrderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [currentOrder, currentOrderBy, page, rowsPerPage, rows]
-  )
+  const handleSelect = (_: React.MouseEvent<unknown>, id: string) => {
+    const selectedIndex = selected.indexOf(id)
+    let newSelected: readonly string[]
+
+    if (selectedIndex === -1) newSelected = selected.concat(id)
+    else if (selectedIndex === 0) newSelected = selected.slice(1)
+    else if (selectedIndex === selected.length - 1)
+      newSelected = selected.slice(0, -1)
+    else
+      newSelected = selected
+        .slice(0, selectedIndex)
+        .concat(selected.slice(selectedIndex + 1))
+
+    onSelectedChange?.(newSelected)
+  }
+
+  const currentCount = count ?? rows.length
+
+  const currentRows = useMemo(() => {
+    return rows
+  }, [rows])
+
+  const emptyRows = Math.max(0, rowsPerPage - currentRows.length)
 
   return (
     <Box sx={{width: '100%'}}>
@@ -117,21 +114,20 @@ export default function EnhancedTable<T extends {id: string}>({
           >
             <EnhancedTableHead
               numSelected={selected.length}
-              order={currentOrder}
-              orderBy={currentOrderBy}
+              order={order}
+              orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
+              onRequestSort={handleSort}
               rowCount={rows.length}
               headCells={headCells}
             />
             <TableBody>
-              {visibleRows.map((row) => {
+              {currentRows.map((row) => {
                 const isItemSelected = selected.includes(row.id)
-
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={(event) => handleSelect(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -168,22 +164,13 @@ export default function EnhancedTable<T extends {id: string}>({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={currentCount}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={
-          <Switch
-            checked={dense}
-            onChange={handleChangeDense}
-          />
-        }
-        label="Dense padding"
-      />
     </Box>
   )
 }

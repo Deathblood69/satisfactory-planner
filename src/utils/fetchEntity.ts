@@ -30,12 +30,12 @@ export async function fetchEntity<E>(
       : undefined
   }
 
-  await waitRandomOrThrow(
-    2,
-    5,
-    options?.randomErrorChance ?? 0.2,
-    options?.randomHttpErrorChance ?? 0.2
-  )
+  // await waitRandomOrThrow(
+  //   2,
+  //   5,
+  //   options?.randomErrorChance ?? 0.2,
+  //   options?.randomHttpErrorChance ?? 0.2
+  // )
 
   const res = await fetch(`${APP_CONFIG.backendUrl}/${entity}`, fetchOptions)
 

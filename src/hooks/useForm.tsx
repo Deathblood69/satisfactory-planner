@@ -36,7 +36,7 @@ export default function useForm<Input, Output>({
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['todos']})
+      queryClient.invalidateQueries({queryKey: ['lists']})
     }
   })
 
