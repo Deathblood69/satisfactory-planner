@@ -3,5 +3,6 @@ export interface CategoryDTO {
   name: string
   parentId: string | null
   order: number
-  inputValue?: string // pour la saisie libre
+  inputValue?: string
+  disabled: boolean
 }

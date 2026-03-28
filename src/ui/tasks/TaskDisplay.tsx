@@ -1,61 +1,35 @@
-import {Fragment} from 'react'
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
-import {TaskDTO} from '@/dto/TaskDTO'
-import getAllEntities from '@/queries/getAllEntities'
-import AsyncStatus from '@/components/AsyncStatus'
+import {Fragment, useState} from 'react'
 import {TaskList} from '@/ui/tasks/TaskList'
+import {Stack} from '@mui/material'
+import CategoriesList from '@/ui/categories/CategoriesList'
+import {CategoryDTO} from '@/dto/CategoryDTO'
 
 interface Props {
   idList?: string
 }
 
-const API_TASKS = 'http://localhost:3001/tasks'
-
 export default function TaskDisplay({idList}: Props) {
-  const queryClient = useQueryClient()
+  const [selectedCategory, setCategory] = useState<CategoryDTO>()
 
-  const {
-    data: tasks,
-    isLoading: isLoadingTasks,
-    error: errorTasks
-  } = useQuery({
-    queryKey: ['tasks', idList],
-    queryFn: () => getAllEntities<TaskDTO[]>('tasks'),
-    // The query will not execute until the userId exists
-    enabled: idList !== 'new'
-  })
-
-  const toggleTask = useMutation({
-    mutationFn: async (task: TaskDTO) => {
-      const res = await fetch(`${API_TASKS}/${task.id}`, {
-        method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({completed: !task.completed})
-      })
-      return res.json()
-    },
-    onSuccess: () => queryClient.invalidateQueries({queryKey: ['tasks']})
-  })
-
-  const deleteTask = useMutation({
-    mutationFn: async (taskId: string) => {
-      await fetch(`${API_TASKS}/${taskId}`, {method: 'DELETE'})
-    },
-    onSuccess: () => queryClient.invalidateQueries({queryKey: ['tasks']})
-  })
+  function handleCategoryChange(category?: CategoryDTO) {
+    setCategory(category)
+  }
 
   return (
     <Fragment>
-      <AsyncStatus
-        isPending={isLoadingTasks}
-        error={errorTasks}
+      <Stack
+        spacing={2}
+        direction="row"
       >
-        <TaskList
-          tasks={tasks}
-          onToggle={(t) => toggleTask.mutate(t)}
-          onDelete={(id) => deleteTask.mutate(id)}
+        <CategoriesList
+          selectedCategory={selectedCategory}
+          handleCategoryChange={handleCategoryChange}
         />
-      </AsyncStatus>
+        <TaskList
+          idList={idList}
+          selectedCategory={selectedCategory}
+        />
+      </Stack>
     </Fragment>
   )
 }

@@ -1,94 +1,110 @@
 'use client'
 
-import {Checkbox, IconButton, Stack, Typography} from '@mui/material'
-import {Delete, Edit} from '@mui/icons-material'
-import {Fragment, useMemo} from 'react'
+import {Card, Stack, Typography} from '@mui/material'
+import {Fragment} from 'react'
 import sortTaskById from '@/utils/sortTaskById'
 import {filterTasksByCategory} from '@/utils/filterTasksByCategory'
 import sortArrayByProperty from '@/utils/sortArrayByProperty'
 import {TaskDTO} from '@/dto/TaskDTO'
 import {CategoryDTO} from '@/dto/CategoryDTO'
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
+import getAllEntities from '@/queries/getAllEntities'
+import TaskItem from '@/ui/tasks/TaskItem'
+
+const API_TASKS = 'http://localhost:3001/tasks'
 
 type Props = {
-  tasks?: TaskDTO[]
-  selectedCategory?: CategoryDTO | null
-  onEdit?: (taskId: string) => void
-  onToggle?: (task: TaskDTO) => void
-  onDelete?: (taskId: string) => void
+  idList?: string
+  selectedCategory?: CategoryDTO
 }
 
-export function TaskList({
-  tasks,
-  selectedCategory,
-  onEdit,
-  onToggle,
-  onDelete
-}: Props) {
-  const filtered = useMemo(() => {
-    if (!tasks) {
-      return []
-    }
+export function TaskList({idList, selectedCategory}: Props) {
+  const queryClient = useQueryClient()
 
-    if (!selectedCategory) {
-      return tasks
-    }
+  const {data: categories} = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => getAllEntities<CategoryDTO[]>('categories')
+  })
 
-    return filterTasksByCategory(tasks, selectedCategory)
-  }, [selectedCategory, tasks])
+  const {data: tasks} = useQuery({
+    queryKey: ['tasks', idList],
+    queryFn: () => getAllEntities<TaskDTO[]>('tasks')
+  })
 
-  const [completed, notCompleted] = useMemo(() => {
-    const sorted = sortArrayByProperty(filtered, 'completed').reverse()
-    const completed = sorted.filter((task) => task.completed)
-    const notCompleted = sorted.filter((task) => !task.completed)
-    return [completed, notCompleted]
-  }, [filtered])
+  const {mutate: onToggle} = useMutation({
+    mutationFn: async (task: TaskDTO) => {
+      const res = await fetch(`${API_TASKS}/${task.id}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({completed: !task.completed})
+      })
+      return res.json()
+    },
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ['tasks']})
+  })
 
-  const sorted = useMemo(() => {
-    return [...sortTaskById(notCompleted), ...sortTaskById(completed)]
-  }, [completed, notCompleted])
+  const {mutate: onDelete} = useMutation({
+    mutationFn: async (taskId: string) => {
+      await fetch(`${API_TASKS}/${taskId}`, {method: 'DELETE'})
+    },
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ['tasks']})
+  })
 
   return (
-    <Fragment>
-      {filtered.length > 0 && selectedCategory && (
-        <Typography>
-          <strong>{selectedCategory.name}</strong>
-        </Typography>
-      )}
-      {sorted.map((t) => {
-        return (
-          <Stack
-            key={t.id}
-            direction="row"
-            spacing={1}
-            alignItems="center"
-          >
-            {onToggle && (
-              <Checkbox
-                checked={t.completed}
-                onChange={() => onToggle(t)}
+    <Stack
+      direction={'column'}
+      sx={{width: '100%', p: 2}}
+      spacing={2}
+      component={Card}
+    >
+      {!selectedCategory && (
+        <Fragment>
+          <Typography>
+            <strong>{'None'}</strong>
+          </Typography>
+          {tasks
+            ?.filter((task) => !task.categoryId)
+            .map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                onToggle={onToggle}
+                onDelete={onDelete}
               />
-            )}
-            <Typography
-              sx={{
-                textDecoration: t.completed ? 'line-through' : 'none',
-                flex: 1
-              }}
-            >
-              {t.title}
-            </Typography>
-            {onEdit && (
-              <IconButton onClick={() => onEdit(t.id)}>
-                <Edit />
-              </IconButton>
-            )}
-            {onDelete && (
-              <IconButton onClick={() => onDelete(t.id)}>
-                <Delete />
-              </IconButton>
-            )}
-          </Stack>
+            ))}
+        </Fragment>
+      )}
+      {categories
+        ?.filter((category) =>
+          selectedCategory ? selectedCategory.id === category.id : true
         )
-      })}
-    </Fragment>
+        ?.map((category) => {
+          const filtered = tasks ? filterTasksByCategory(tasks, category) : []
+          const preSorted = sortArrayByProperty(filtered, 'completed').reverse()
+          const completed = preSorted.filter((task) => task.completed)
+          const notCompleted = preSorted.filter((task) => !task.completed)
+          const sorted = [
+            ...sortTaskById(notCompleted),
+            ...sortTaskById(completed)
+          ]
+          return (
+            <Fragment key={category.id}>
+              <Typography>
+                <strong>{category.name}</strong>
+              </Typography>
+              {sorted.map((task) => {
+                return (
+                  <TaskItem
+                    key={task.id}
+                    task={task}
+                    onToggle={onToggle}
+                    onDelete={onDelete}
+                  />
+                )
+              })}
+            </Fragment>
+          )
+        })}
+    </Stack>
   )
 }
