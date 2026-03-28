@@ -1,56 +1,46 @@
-import * as React from 'react'
-import List from '@mui/material/List'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
-import {useQuery} from '@tanstack/react-query'
+'use client'
 
-import getEntitiesByProperty from '@/queries/getEntitiesByProperty'
-import {API_CONFIG} from '@/config/api.config'
+import {Stack} from '@mui/material'
 import {CategoryDTO} from '@/dto/categories/CategoryDTO'
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
+import getAllEntities from '@/queries/getAllEntities'
+import {API_CONFIG} from '@/config/api.config'
+import CategoryItem from '@/ui/categories/CategoryItem'
 
-interface Props {
-  idList: string
-  selectedCategory?: CategoryDTO
-  handleCategoryChange: (selectedCategory?: CategoryDTO) => void
-}
+const API_TASKS = 'http://localhost:3001/categories'
 
-export default function CategoriesList({
-  idList,
-  selectedCategory,
-  handleCategoryChange
-}: Props) {
+export default function CategoriesList() {
+  const queryClient = useQueryClient()
+
   const {data: categories} = useQuery({
     queryKey: [API_CONFIG.categories],
-    queryFn: () =>
-      getEntitiesByProperty<CategoryDTO>(
-        API_CONFIG.categories,
-        'listId',
-        idList
-      )
+    queryFn: () => getAllEntities<CategoryDTO[]>(API_CONFIG.categories)
   })
 
+  const {mutate: onDelete} = useMutation({
+    mutationFn: async (taskId: string) => {
+      await fetch(`${API_TASKS}/${taskId}`, {method: 'DELETE'})
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({queryKey: [API_CONFIG.categories]})
+  })
+
+  if (!categories || categories.length === 0) {
+    return
+  }
+
   return (
-    <List>
-      <ListItemButton
-        selected={!selectedCategory}
-        onClick={() => handleCategoryChange()}
-      >
-        <ListItemText primary="None" />
-      </ListItemButton>
-      {categories &&
-        categories.map((category) => (
-          <ListItemButton
-            key={category.id}
-            disabled={category.disabled}
-            selected={
-              category.id === selectedCategory?.id &&
-              category.name === selectedCategory.name
-            }
-            onClick={() => handleCategoryChange(category)}
-          >
-            <ListItemText primary={category.name} />
-          </ListItemButton>
-        ))}
-    </List>
+    <Stack
+      direction={'column'}
+      spacing={2}
+    >
+      {categories?.map((category) => (
+        <CategoryItem
+          key={category.id}
+          category={category}
+          onDelete={onDelete}
+        />
+      ))}
+    </Stack>
   )
 }

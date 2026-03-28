@@ -1,6 +1,6 @@
 'use client'
 
-import {Card, Stack, Typography} from '@mui/material'
+import {Stack, Typography} from '@mui/material'
 import {Fragment} from 'react'
 import sortTaskById from '@/utils/sortTaskById'
 import {filterTasksByCategory} from '@/utils/filterTasksByCategory'
@@ -60,12 +60,11 @@ export function TaskList({idList, selectedCategory}: Props) {
   return (
     <Stack
       direction={'column'}
-      sx={{width: '100%', p: 2}}
       spacing={2}
-      component={Card}
+      sx={{width: '100%', p: 2}}
     >
       {!selectedCategory && (
-        <Fragment>
+        <Stack spacing={2}>
           <Typography>
             <strong>{'None'}</strong>
           </Typography>
@@ -79,7 +78,7 @@ export function TaskList({idList, selectedCategory}: Props) {
                 onDelete={onDelete}
               />
             ))}
-        </Fragment>
+        </Stack>
       )}
       {categories
         ?.filter((category) =>

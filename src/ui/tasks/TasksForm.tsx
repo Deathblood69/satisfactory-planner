@@ -1,8 +1,8 @@
 import * as React from 'react'
-import {Dispatch, SetStateAction, useMemo} from 'react'
+import {useMemo, useState} from 'react'
 import {TaskList} from '@/ui/tasks/TaskList'
 import {Stack} from '@mui/material'
-import CategoriesList from '@/ui/categories/CategoriesList'
+import CategoriesMenu from '@/ui/categories/CategoriesMenu'
 import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import {TaskAdd} from '@/ui/tasks/TaskAdd'
 import {API_CONFIG} from '@/config/api.config'
@@ -15,11 +15,11 @@ import {FormProvider} from '@/providers/FormProvider'
 interface Props {
   id?: string
   listId: string
-  category?: CategoryDTO
-  setCategory: Dispatch<SetStateAction<CategoryDTO | undefined>>
 }
 
-export default function TasksForm({id, listId, category, setCategory}: Props) {
+export default function TasksForm({id, listId}: Props) {
+  const [category, setCategory] = useState<CategoryDTO>()
+
   const defaultForm: TaskCreateDTO = useMemo(() => {
     return {
       name: '',
@@ -66,7 +66,7 @@ export default function TasksForm({id, listId, category, setCategory}: Props) {
           spacing={2}
           sx={{width: '100%'}}
         >
-          <CategoriesList
+          <CategoriesMenu
             idList={listId}
             selectedCategory={category}
             handleCategoryChange={handleCategoryChange}

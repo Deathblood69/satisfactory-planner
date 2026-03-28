@@ -1,27 +1,17 @@
 import * as React from 'react'
-import {Dispatch, Fragment, SetStateAction, useEffect} from 'react'
+import {Fragment} from 'react'
 import {useFormContext} from '@/providers/FormProvider'
 import {CategoryCreateDTO} from '@/dto/categories/CategoryCreateDTO'
 import {TextField} from '@mui/material'
-import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import AppButton from '@/components/AppButton'
-import {Add, Delete, Save} from '@mui/icons-material'
+import {Add} from '@mui/icons-material'
 
-interface CategoryAddProps {
-  value: CategoryDTO | undefined
-  setValue: Dispatch<SetStateAction<CategoryDTO | undefined>>
-}
-
-export default function CategoryAdd({value, setValue}: CategoryAddProps) {
-  const {form, onChangeForm, onDeleteForm} = useFormContext<CategoryCreateDTO>()
+export default function CategoryAdd() {
+  const {form, onChangeForm} = useFormContext<CategoryCreateDTO>()
 
   function handleChange(value: string) {
-    setValue((prevState) => prevState && {...prevState, name: value})
+    onChangeForm({name: value})
   }
-
-  useEffect(() => {
-    onChangeForm({name: value?.name ?? ''})
-  }, [onChangeForm, value])
 
   return (
     <Fragment>
@@ -33,12 +23,9 @@ export default function CategoryAdd({value, setValue}: CategoryAddProps) {
         onChange={(event) => handleChange(event.target.value)}
         fullWidth
       />
-      <AppButton type={'submit'}>{value?.id ? <Save /> : <Add />}</AppButton>
-      {value?.id && (
-        <AppButton onClick={() => onDeleteForm(value.id)}>
-          <Delete />
-        </AppButton>
-      )}
+      <AppButton type={'submit'}>
+        <Add />
+      </AppButton>
     </Fragment>
   )
 }

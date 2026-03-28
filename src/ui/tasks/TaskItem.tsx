@@ -1,5 +1,5 @@
 import {TaskDTO} from '@/dto/tasks/TaskDTO'
-import {Checkbox, IconButton, Stack, Typography} from '@mui/material'
+import {Card, Checkbox, IconButton, Stack, Typography} from '@mui/material'
 import {Delete} from '@mui/icons-material'
 
 interface Props {
@@ -12,8 +12,10 @@ export default function TaskItem({task, onToggle, onDelete}: Props) {
   return (
     <Stack
       direction="row"
-      spacing={1}
       alignItems="center"
+      component={Card}
+      sx={{width: '100%', p: 2}}
+      elevation={2}
     >
       {onToggle && (
         <Checkbox

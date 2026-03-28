@@ -5,10 +5,10 @@ import AppButton from '@/components/AppButton'
 import {Add} from '@mui/icons-material'
 import * as React from 'react'
 import {useFormContext} from '@/providers/FormProvider'
-import {CategoryCreateDTO} from '@/dto/categories/CategoryCreateDTO'
+import {TaskCreateDTO} from '@/dto/tasks/TaskCreateDTO'
 
 export function TaskAdd() {
-  const {form, onChangeForm} = useFormContext<CategoryCreateDTO>()
+  const {form, onChangeForm} = useFormContext<TaskCreateDTO>()
 
   function handleChange(value: string) {
     onChangeForm({name: value ?? ''})

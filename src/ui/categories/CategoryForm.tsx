@@ -2,33 +2,27 @@
 
 import {Stack} from '@mui/material'
 import * as React from 'react'
-import {Dispatch, SetStateAction, useMemo} from 'react'
+import {useMemo} from 'react'
 import {API_CONFIG} from '@/config/api.config'
 import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import {FormProvider} from '@/providers/FormProvider'
 import {CategoryCreateDTO} from '@/dto/categories/CategoryCreateDTO'
 import {CategoryService} from '@/services/CategoryService'
-import CategoriesList from '@/ui/categories/CategoriesList'
 import CategoryAdd from '@/ui/categories/CategoryAdd'
+import CategoriesList from '@/ui/categories/CategoriesList'
 
 interface Props {
   id?: string
   listId: string
-  value: CategoryDTO | undefined
-  setValue: Dispatch<SetStateAction<CategoryDTO | undefined>>
 }
 
-export default function CategoryForm({id, listId, value, setValue}: Props) {
+export default function CategoryForm({id, listId}: Props) {
   const defaultForm: CategoryCreateDTO = useMemo(() => {
     return {
       name: '',
       listId
     }
   }, [listId])
-
-  function handleCategoryChange(category?: CategoryDTO) {
-    setValue(category)
-  }
 
   async function handleSave(dto: CategoryCreateDTO) {
     let entity: CategoryDTO
@@ -57,16 +51,9 @@ export default function CategoryForm({id, listId, value, setValue}: Props) {
         spacing={2}
         sx={{mb: 2}}
       >
-        <CategoryAdd
-          value={value}
-          setValue={setValue}
-        />
+        <CategoryAdd />
       </Stack>
-      <CategoriesList
-        idList={listId}
-        selectedCategory={value}
-        handleCategoryChange={handleCategoryChange}
-      />
+      <CategoriesList />
     </FormProvider>
   )
 }
