@@ -2,7 +2,11 @@
 
 import * as React from 'react'
 import {Fragment, useMemo} from 'react'
-import EnhancedTable, {Action, HeadCell} from '@/components/EnhancedTable'
+import EnhancedTable, {
+  Action,
+  HeadCell,
+  RowAction
+} from '@/components/EnhancedTable'
 import {ListDTO} from '@/dto/ListDTO'
 import AsyncStatus from '@/components/AsyncStatus'
 import usePagination from '@/hooks/usePagination'
@@ -16,27 +20,6 @@ import NewButton from '@/components/NewButton'
 import {ROUTES_CONFIG} from '@/config/routes.config'
 import {useRouter} from 'next/navigation'
 import ClickableLinkChips from '@/components/ClickableLinkChips'
-
-const headCells: readonly HeadCell<ListDTO>[] = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Name'
-  },
-  {
-    id: 'private',
-    numeric: false,
-    disablePadding: false,
-    label: 'Private',
-    render: (id, value) => (
-      <ClickableLinkChips
-        id={'private'}
-        label={value[id] ? 'True' : 'False'}
-      />
-    )
-  }
-]
 
 type Ids = readonly string[] | undefined
 
@@ -54,6 +37,49 @@ export default function ListsDisplay() {
       }
     }
   })
+
+  const headCells: readonly HeadCell<ListDTO>[] = useMemo(() => {
+    return [
+      {
+        id: 'name',
+        numeric: false,
+        disablePadding: true,
+        label: 'Name'
+      },
+      {
+        id: 'private',
+        numeric: false,
+        disablePadding: false,
+        label: 'Private',
+        render: (id, value) => (
+          <ClickableLinkChips
+            id={'private'}
+            label={value[id] ? 'True' : 'False'}
+          />
+        )
+      }
+    ]
+  }, [])
+
+  const rowActions: readonly RowAction<ListDTO>[] = useMemo(() => {
+    return [
+      {
+        id: 'actions',
+        label: 'Actions',
+        render: (value) => (
+          <Tooltip title={'View details'}>
+            <IconButton
+              onClick={() =>
+                router.push(`${ROUTES_CONFIG.lists}/${value.id}/tasks`)
+              }
+            >
+              <Launch />
+            </IconButton>
+          </Tooltip>
+        )
+      }
+    ]
+  }, [router])
 
   const handleClickAction = useMemo(() => {
     return (id: string, selected: readonly string[]) => {
@@ -79,17 +105,6 @@ export default function ListsDisplay() {
       {
         id: 'new',
         children: selecting.selected.length === 0 && <NewButton />,
-        onClick: handleClickAction
-      },
-      {
-        id: 'view',
-        children: selecting.selected.length === 1 && (
-          <Tooltip title={'View details'}>
-            <IconButton>
-              <Launch />
-            </IconButton>
-          </Tooltip>
-        ),
         onClick: handleClickAction
       },
       {
@@ -133,6 +148,7 @@ export default function ListsDisplay() {
           headCells={headCells}
           actions={actions}
           rows={rows}
+          rowActions={rowActions}
           sorting={sorting}
           paginating={paginating}
           selecting={selecting}

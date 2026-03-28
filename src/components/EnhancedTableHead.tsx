@@ -8,13 +8,7 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Checkbox from '@mui/material/Checkbox'
 import {visuallyHidden} from '@mui/utils'
-
-interface HeadCell<T> {
-  disablePadding?: boolean
-  id: keyof T
-  label: string
-  numeric?: boolean
-}
+import {HeadCell, RowAction} from '@/components/EnhancedTable'
 
 interface EnhancedTableHeadProps<T extends {id: string}> {
   numSelected: number
@@ -24,6 +18,7 @@ interface EnhancedTableHeadProps<T extends {id: string}> {
   orderBy: keyof T
   rowCount?: number
   headCells: readonly HeadCell<T>[]
+  rowActions: readonly RowAction<T>[]
 }
 
 export function EnhancedTableHead<T extends {id: string}>({
@@ -33,7 +28,8 @@ export function EnhancedTableHead<T extends {id: string}>({
   numSelected,
   rowCount,
   onRequestSort,
-  headCells
+  headCells,
+  rowActions
 }: EnhancedTableHeadProps<T>) {
   const createSortHandler =
     (property: keyof T) => (event: React.MouseEvent<unknown>) => {
@@ -78,6 +74,14 @@ export function EnhancedTableHead<T extends {id: string}>({
                 </Box>
               )}
             </TableSortLabel>
+          </TableCell>
+        ))}
+        {rowActions.map((rowAction) => (
+          <TableCell
+            key={String(rowAction.id)}
+            align={'right'}
+          >
+            {rowAction.label}
           </TableCell>
         ))}
       </TableRow>

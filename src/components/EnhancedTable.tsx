@@ -22,6 +22,12 @@ export interface HeadCell<T> {
   render?: (id: keyof T, value: T) => ReactNode
 }
 
+export interface RowAction<T> {
+  id: keyof T
+  label: string
+  render: (value: T) => ReactNode
+}
+
 export interface Action {
   id: string
   children: ReactNode
@@ -52,6 +58,7 @@ interface EnhancedTableProps<T extends {id: string}> {
   dense?: boolean
   headCells: readonly HeadCell<T>[]
   rows?: T[]
+  rowActions: readonly RowAction<T>[]
   actions: readonly Action[]
   sorting?: Sorting<T>
   paginating: Paginating
@@ -64,6 +71,7 @@ export default function EnhancedTable<T extends {id: string}>({
   headCells,
   actions,
   rows,
+  rowActions,
   sorting,
   paginating,
   selecting
@@ -150,6 +158,7 @@ export default function EnhancedTable<T extends {id: string}>({
               onRequestSort={handleSort}
               rowCount={currentCount}
               headCells={headCells}
+              rowActions={rowActions}
             />
             <TableBody>
               {currentRows?.map((row) => {
@@ -180,12 +189,22 @@ export default function EnhancedTable<T extends {id: string}>({
                           : String(row[headCell.id])}
                       </TableCell>
                     ))}
+                    {rowActions.map((rowAction) => (
+                      <TableCell
+                        key={String(rowAction.id)}
+                        align={'right'}
+                      >
+                        {rowAction.render(row)}
+                      </TableCell>
+                    ))}
                   </TableRow>
                 )
               })}
               {emptyRows > 0 && (
                 <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
-                  <TableCell colSpan={headCells.length + 1} />
+                  <TableCell
+                    colSpan={headCells.length + rowActions.length + 1}
+                  />
                 </TableRow>
               )}
             </TableBody>
