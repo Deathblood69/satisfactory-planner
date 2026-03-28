@@ -1,22 +1,28 @@
 'use client'
 
-import {QueryClient, useMutation} from '@tanstack/react-query'
+import {useMutation, useQueryClient} from '@tanstack/react-query'
+import {useEffect, useState} from 'react'
+import getEntityById from '@/queries/getEntityById'
 
 interface Props<Input, Output> {
-  onCreate: (data: Input) => Promise<Output>
+  id?: string
+  defaultForm?: Input
+  onTrigger: (data: Input) => Promise<Output>
   onSuccess?: (data: Output) => void
 }
 
-export default function useForm<Input, Output>(
+export default function useForm<Form, Response>(
   entity: string,
-  {onCreate, onSuccess}: Props<Input, Output>
+  {id, defaultForm, onTrigger, onSuccess}: Props<Form, Response>
 ) {
-  const queryClient = new QueryClient()
+  const [state, setState] = useState<Partial<Form> | null>(defaultForm ?? null)
 
-  const mutation = useMutation<Output, unknown, Input>({
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation<Response, unknown, Form>({
     mutationFn: async (dto) => {
       try {
-        const data = await onCreate(dto)
+        const data = await onTrigger(dto)
         if (onSuccess) {
           onSuccess(data)
         }
@@ -25,15 +31,34 @@ export default function useForm<Input, Output>(
         throw err
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [entity]})
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({queryKey: [entity]})
     }
   })
 
+  const {error, isPending, mutate} = useMutation({
+    mutationFn: (id: string) => getEntityById<Form>(entity, id),
+    onSuccess: (data) => handleChangeForm(data)
+  })
+
+  useEffect(() => {
+    if (id && id !== 'new') {
+      mutate(id)
+    }
+  }, [mutate, id])
+
+  function handleChangeForm(newState: Partial<Form>) {
+    setState((prevState) => {
+      return prevState !== null ? {...prevState, ...newState} : newState
+    })
+  }
+
   return {
-    error: mutation.error as Error,
-    isPending: mutation.isPending,
+    form: state,
+    error: (mutation.error || error) as Error,
+    isPending: mutation.isPending || isPending,
     isError: mutation.isError,
-    onSubmit: mutation.mutate
+    onSubmit: mutation.mutate,
+    onChangeForm: handleChangeForm
   }
 }

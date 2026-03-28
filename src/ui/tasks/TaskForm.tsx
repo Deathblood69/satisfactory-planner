@@ -4,13 +4,19 @@ import {useState} from 'react'
 import {Button, Stack, TextField} from '@mui/material'
 import {CategoryDTO} from '@/dto/CategoryDTO'
 import AppAutocomplete from '@/components/AppAutocomplete'
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 
-type Props = {
-  categories: CategoryDTO[]
-  onAdd: (title: string, categoryId: string | null) => void
-}
+const API_TASKS = 'http://localhost:3001/tasks'
+const API_CATEGORIES = 'http://localhost:3001/categories'
 
-export function TaskForm({categories, onAdd}: Props) {
+export function TaskForm() {
+  const queryClient = useQueryClient()
+
+  const {data: categories = []} = useQuery<CategoryDTO[]>({
+    queryKey: ['categories'],
+    queryFn: async () => (await fetch(API_CATEGORIES)).json()
+  })
+
   const [title, setTitle] = useState('')
   const [categoryId, setCategoryId] = useState<string | null>(null)
 
@@ -22,9 +28,32 @@ export function TaskForm({categories, onAdd}: Props) {
     setCategoryId(value?.id)
   }
 
+  const addTask = useMutation({
+    mutationFn: async ({
+      title,
+      categoryId
+    }: {
+      title: string
+      categoryId: string | null
+    }) => {
+      const res = await fetch(API_TASKS, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({title, categoryId, completed: false})
+      })
+      return res.json()
+    },
+    onSuccess: () => queryClient.invalidateQueries({queryKey: ['tasks']})
+  })
+
   const handleSubmit = () => {
     if (!title.trim()) return
-    onAdd(title, categoryId)
+
+    addTask.mutate({
+      title,
+      categoryId
+    })
+
     setTitle('')
   }
 

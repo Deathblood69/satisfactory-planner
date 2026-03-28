@@ -9,21 +9,33 @@ interface Props<T> {
   rowsPerPage?: number
 }
 
-interface PaginationResult<T> {
-  data?: T[]
-  count?: number
+interface Sorting<T> {
   order: 'asc' | 'desc'
   orderBy: keyof T
+  onOrderChange?: (order: 'asc' | 'desc', orderBy: keyof T) => void
+}
+
+interface Paginating {
+  count?: number
   page: number
   rowsPerPage: number
+  onPageChange?: (page: number) => void
+  onRowsPerPageChange?: (rowsPerPage: number) => void
+}
+
+interface Selecting {
   selected: readonly string[]
-  error: Error | null
+  onSelectedChange?: (selected: readonly string[]) => void
+}
+
+interface PaginationResult<T> {
   isPending: boolean
-  setOrder: (order: 'asc' | 'desc') => void
-  setOrderBy: (orderBy: keyof T) => void
-  setPage: (page: number) => void
-  setRowsPerPage: (rowsPerPage: number) => void
-  setSelected: (selected: readonly string[]) => void
+  error: Error | null
+  data?: T[]
+  rows?: T[]
+  sorting?: Sorting<T>
+  paginating: Paginating
+  selecting: Selecting
 }
 
 export default function usePagination<T extends {id: string}>(
@@ -55,20 +67,43 @@ export default function usePagination<T extends {id: string}>(
       })
   })
 
+  function handleOrderChange(newOrder: 'asc' | 'desc', newOrderBy: keyof T) {
+    setCurrentOrder(newOrder)
+    setCurrentOrderBy(newOrderBy)
+  }
+
+  function handlePageChange(newPage: number) {
+    setCurrentPage(newPage)
+  }
+
+  function handleRowsPerPageChange(newRowsPerPage: number) {
+    setCurrentRowsPerPage(newRowsPerPage)
+    setCurrentPage(0)
+  }
+
+  function handleSelected(selected: readonly string[]) {
+    setSelected(selected)
+  }
+
   return {
-    data: data?.data,
-    count: data?.items,
-    order: currentOrder,
-    orderBy: currentOrderBy,
-    page: currentPage,
-    rowsPerPage: currentRowsPerPage,
-    selected,
     error: error,
     isPending,
-    setOrder: setCurrentOrder,
-    setOrderBy: setCurrentOrderBy,
-    setPage: setCurrentPage,
-    setRowsPerPage: setCurrentRowsPerPage,
-    setSelected
+    rows: data?.data,
+    sorting: {
+      order: currentOrder,
+      orderBy: currentOrderBy,
+      onOrderChange: handleOrderChange
+    },
+    paginating: {
+      count: data?.items,
+      page: currentPage,
+      rowsPerPage: currentRowsPerPage,
+      onPageChange: handlePageChange,
+      onRowsPerPageChange: handleRowsPerPageChange
+    },
+    selecting: {
+      selected,
+      onSelectedChange: handleSelected
+    }
   }
 }

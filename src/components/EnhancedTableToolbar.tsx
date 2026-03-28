@@ -1,21 +1,29 @@
 'use client'
 
 import * as React from 'react'
+import {ReactNode} from 'react'
 import {alpha} from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import Tooltip from '@mui/material/Tooltip'
-import DeleteIcon from '@mui/icons-material/Delete'
-import FilterListIcon from '@mui/icons-material/FilterList'
+import Box from '@mui/material/Box'
+
+interface Action {
+  id: string
+  children: ReactNode
+  onClick?: (actionId: string, selected: readonly string[]) => void
+}
 
 interface EnhancedTableToolbarProps {
   title?: string
+  actions: readonly Action[]
+  selected: readonly string[]
   numSelected: number
 }
 
 export function EnhancedTableToolbar({
   title,
+  actions,
+  selected,
   numSelected
 }: EnhancedTableToolbarProps) {
   return (
@@ -51,19 +59,14 @@ export function EnhancedTableToolbar({
         </Typography>
       )}
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      {actions.map((action) => (
+        <Box
+          key={action.id}
+          onClick={() => action.onClick && action.onClick(action.id, selected)}
+        >
+          {action.children}
+        </Box>
+      ))}
     </Toolbar>
   )
 }

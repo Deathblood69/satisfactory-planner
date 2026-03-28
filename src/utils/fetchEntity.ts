@@ -13,7 +13,7 @@ interface FetchParams {
 }
 
 export async function fetchEntity<E>(
-  entity: string,
+  endpoint: string,
   options?: FetchParams
 ): Promise<E> {
   const method = options?.method ?? 'GET'
@@ -37,7 +37,7 @@ export async function fetchEntity<E>(
   //   options?.randomHttpErrorChance ?? 0.2
   // )
 
-  const res = await fetch(`${APP_CONFIG.backendUrl}/${entity}`, fetchOptions)
+  const res = await fetch(`${APP_CONFIG.backendUrl}/${endpoint}`, fetchOptions)
 
   if (!res.ok) {
     const text = await res.text()

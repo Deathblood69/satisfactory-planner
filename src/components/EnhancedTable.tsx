@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import {useMemo} from 'react'
+import {ReactNode, useMemo} from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -14,97 +14,126 @@ import Checkbox from '@mui/material/Checkbox'
 import {EnhancedTableToolbar} from '@/components/EnhancedTableToolbar'
 import {EnhancedTableHead} from '@/components/EnhancedTableHead'
 
-export type HeadCell<T> = {
+export interface HeadCell<T> {
   disablePadding: boolean
   id: keyof T
   label: string
   numeric: boolean
 }
 
-interface EnhancedTableProps<T extends {id: string}> {
-  title?: string
-  rows?: T[]
-  headCells: readonly HeadCell<T>[]
+export interface Action {
+  id: string
+  children: ReactNode
+  onClick?: (actionId: string, selected: readonly string[]) => void
+}
+
+interface Sorting<T> {
   order: 'asc' | 'desc'
   orderBy: keyof T
-  dense?: boolean
+  onOrderChange?: (order: 'asc' | 'desc', orderBy: keyof T) => void
+}
+
+interface Paginating {
   count?: number
   page: number
   rowsPerPage: number
-  selected: readonly string[]
-  onOrderChange?: (order: 'asc' | 'desc', orderBy: keyof T) => void
   onPageChange?: (page: number) => void
   onRowsPerPageChange?: (rowsPerPage: number) => void
+}
+
+interface Selecting {
+  selected: readonly string[]
   onSelectedChange?: (selected: readonly string[]) => void
+}
+
+interface EnhancedTableProps<T extends {id: string}> {
+  title?: string
+  dense?: boolean
+  headCells: readonly HeadCell<T>[]
+  rows?: T[]
+  actions: readonly Action[]
+  sorting?: Sorting<T>
+  paginating: Paginating
+  selecting: Selecting
 }
 
 export default function EnhancedTable<T extends {id: string}>({
   title = '',
-  rows = [],
-  headCells,
-  order,
-  orderBy,
   dense,
-  count,
-  page,
-  rowsPerPage,
-  selected,
-  onOrderChange,
-  onPageChange,
-  onRowsPerPageChange,
-  onSelectedChange
+  headCells,
+  actions,
+  rows,
+  sorting,
+  paginating,
+  selecting
 }: EnhancedTableProps<T>) {
   const handleSort = (_: React.MouseEvent<unknown>, property: keyof T) => {
-    const isAsc = orderBy === property && order === 'asc'
+    const isAsc = sorting?.orderBy === property && sorting?.order === 'asc'
     const newOrder: Order = isAsc ? 'desc' : 'asc'
-    onOrderChange?.(newOrder, property)
+    sorting?.onOrderChange?.(newOrder, property)
   }
 
   const handleChangePage = (_: unknown, newPage: number) => {
-    onPageChange?.(newPage)
+    if (paginating?.onPageChange) {
+      paginating.onPageChange(newPage)
+    }
   }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    onRowsPerPageChange?.(parseInt(event.target.value, 10))
+    if (paginating?.onRowsPerPageChange) {
+      paginating.onRowsPerPageChange?.(parseInt(event.target.value, 10))
+    }
   }
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newSelected = event.target.checked ? rows.map((n) => n.id) : []
-    onSelectedChange?.(newSelected)
+    const newSelected =
+      event.target.checked && rows ? rows.map((n) => n.id) : []
+    if (selecting?.onSelectedChange) {
+      selecting.onSelectedChange?.(newSelected)
+    }
   }
 
   const handleSelect = (_: React.MouseEvent<unknown>, id: string) => {
-    const selectedIndex = selected.indexOf(id)
+    const selectedIndex = selecting?.selected.indexOf(id)
     let newSelected: readonly string[]
 
-    if (selectedIndex === -1) newSelected = selected.concat(id)
-    else if (selectedIndex === 0) newSelected = selected.slice(1)
-    else if (selectedIndex === selected.length - 1)
-      newSelected = selected.slice(0, -1)
+    if (selectedIndex === -1) newSelected = selecting?.selected.concat(id)
+    else if (selectedIndex === 0) newSelected = selecting?.selected.slice(1)
+    else if (selectedIndex === selecting?.selected.length - 1)
+      newSelected = selecting?.selected.slice(0, -1)
     else
-      newSelected = selected
+      newSelected = selecting?.selected
         .slice(0, selectedIndex)
-        .concat(selected.slice(selectedIndex + 1))
+        .concat(selecting?.selected.slice(selectedIndex + 1))
 
-    onSelectedChange?.(newSelected)
+    if (selecting?.onSelectedChange) {
+      selecting.onSelectedChange?.(newSelected)
+    }
   }
 
-  const currentCount = count ?? rows.length
+  const currentCount = paginating?.count ?? rows?.length ?? 0
 
   const currentRows = useMemo(() => {
     return rows
   }, [rows])
 
-  const emptyRows = Math.max(0, rowsPerPage - currentRows.length)
+  const emptyRows = Math.max(
+    0,
+    paginating?.rowsPerPage && currentRows
+      ? paginating?.rowsPerPage - currentRows.length
+      : 0
+  )
 
   return (
     <Box sx={{width: '100%'}}>
       <Paper sx={{width: '100%', mb: 2}}>
         <EnhancedTableToolbar
           title={title}
-          numSelected={selected.length}
+          actions={actions}
+          selected={selecting?.selected}
+          numSelected={selecting?.selected.length}
         />
         <TableContainer>
           <Table
@@ -113,17 +142,17 @@ export default function EnhancedTable<T extends {id: string}>({
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
+              numSelected={selecting?.selected.length}
+              order={sorting?.order ?? 'asc'}
+              orderBy={sorting?.orderBy ?? 'id'}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleSort}
-              rowCount={rows.length}
+              rowCount={currentCount}
               headCells={headCells}
             />
             <TableBody>
-              {currentRows.map((row) => {
-                const isItemSelected = selected.includes(row.id)
+              {currentRows?.map((row) => {
+                const isItemSelected = selecting?.selected.includes(row.id)
                 return (
                   <TableRow
                     hover
@@ -165,8 +194,8 @@ export default function EnhancedTable<T extends {id: string}>({
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={currentCount}
-          rowsPerPage={rowsPerPage}
-          page={page}
+          rowsPerPage={paginating?.rowsPerPage}
+          page={paginating?.page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
@@ -176,19 +205,3 @@ export default function EnhancedTable<T extends {id: string}>({
 }
 
 type Order = 'asc' | 'desc'
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
-  const aValue = a[orderBy]
-  const bValue = b[orderBy]
-
-  if (typeof bValue === 'number' && typeof aValue === 'number')
-    return bValue - aValue
-  return String(bValue).localeCompare(String(aValue))
-}
-
-export function getComparator<T>(order: Order, orderBy: keyof T) {
-  return (a: T, b: T) =>
-    order === 'desc'
-      ? descendingComparator(a, b, orderBy)
-      : -descendingComparator(a, b, orderBy)
-}
