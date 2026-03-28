@@ -1,10 +1,13 @@
-import {Fragment, ReactNode} from 'react'
+import {ReactNode} from 'react'
 import {ListCreateDTO} from '@/dto/ListCreateDTO'
 import {ListDTO} from '@/dto/ListDTO'
 import {ListService} from '@/services/ListService'
 import {FormProvider} from '@/providers/FormProvider'
 import {ROUTES_CONFIG} from '@/config/routes.config'
 import {useRouter} from 'next/navigation'
+import Button from '@mui/material/Button'
+import {Card, Stack} from '@mui/material'
+import SaveButton from '@/components/SaveButton'
 
 const defaultForm: ListCreateDTO = {
   name: '',
@@ -34,7 +37,7 @@ export default function ListFormLayout({id, children}: Props) {
   }
 
   return (
-    <Fragment>
+    <Card>
       <FormProvider<ListCreateDTO, ListDTO>
         id={id}
         entity={'lists'}
@@ -42,8 +45,24 @@ export default function ListFormLayout({id, children}: Props) {
         onSave={handleSave}
         onSuccess={handleSuccess}
       >
-        {children}
+        <Stack
+          direction="column"
+          elevation={2}
+          sx={{p: 2}}
+          spacing={2}
+          component={Card}
+        >
+          {children}
+          <Stack
+            direction="row"
+            spacing={2}
+            justifyContent={'center'}
+          >
+            <SaveButton edited={Boolean(id)} />
+            <Button variant={'outlined'}>Cancel</Button>
+          </Stack>
+        </Stack>
       </FormProvider>
-    </Fragment>
+    </Card>
   )
 }

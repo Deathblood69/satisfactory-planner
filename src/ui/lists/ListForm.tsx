@@ -3,23 +3,20 @@ import {TaskForm} from '@/ui/tasks/TaskForm'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import {useFormContext} from '@/providers/FormProvider'
 import {ListCreateDTO} from '@/dto/ListCreateDTO'
+import {Fragment} from 'react'
 
 export default function ListForm() {
   const {form, onChangeForm} = useFormContext<ListCreateDTO>()
 
   return (
-    <Stack
-      direction="column"
-      elevation={2}
-      sx={{p: 2}}
-      spacing={2}
-      component={Card}
-    >
+    <Fragment>
       <Stack
         direction="row"
         spacing={2}
       >
         <TextField
+          id={'name'}
+          name={'name'}
           label={'Name'}
           value={form.name}
           fullWidth
@@ -32,6 +29,8 @@ export default function ListForm() {
         <FormControlLabel
           control={
             <Switch
+              id={'private'}
+              name={'private'}
               checked={form.private}
               onChange={(event) => {
                 onChangeForm({
@@ -50,6 +49,6 @@ export default function ListForm() {
       >
         <TaskForm />
       </Stack>
-    </Stack>
+    </Fragment>
   )
 }

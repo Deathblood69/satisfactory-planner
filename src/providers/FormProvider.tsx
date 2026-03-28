@@ -1,6 +1,13 @@
 'use client'
 
-import {createContext, ReactNode, useContext, useEffect, useState} from 'react'
+import {
+  createContext,
+  ReactNode,
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import {useMutation, useQueryClient} from '@tanstack/react-query'
 import getEntityById from '@/queries/getEntityById'
 
@@ -18,7 +25,6 @@ interface FormContextType<Form> {
   error: Error | null
   isPending: boolean
   isError: boolean
-  onSubmit: (data: Form) => void
   onChangeForm: (data: Partial<Form>) => void
 }
 
@@ -75,6 +81,13 @@ export function FormProvider<Form, Response>({
     setState((prev) => (prev ? {...prev, ...newState} : newState))
   }
 
+  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const data = Object.fromEntries(formData.entries()) as Form
+    mutateSave(data)
+  }
+
   return (
     <FormContext.Provider
       value={{
@@ -82,11 +95,10 @@ export function FormProvider<Form, Response>({
         error: (errorFetchEdited || errorSave) as Error,
         isPending: isPendingFetchEdited || isPendingSave,
         isError: isErrorFetchEdited || isErrorSave,
-        onSubmit: mutateSave,
         onChangeForm: handleChangeForm
       }}
     >
-      {children}
+      <form onSubmit={handleSubmit}>{children}</form>
     </FormContext.Provider>
   )
 }
