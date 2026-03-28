@@ -5,12 +5,16 @@ import {Fragment} from 'react'
 import {Stack} from '@mui/material'
 import SaveButton from '@/components/SaveButton'
 import Button from '@mui/material/Button'
+import {useRouter} from 'next/navigation'
+import {ROUTES_CONFIG} from '@/config/routes.config'
 
 interface Props {
   id: string
 }
 
 export default function ListForm({id}: Props) {
+  const router = useRouter()
+
   return (
     <Fragment>
       <ListFields />
@@ -20,7 +24,12 @@ export default function ListForm({id}: Props) {
         justifyContent={'center'}
       >
         <SaveButton edited={Boolean(id)} />
-        <Button variant={'outlined'}>Cancel</Button>
+        <Button
+          variant={'outlined'}
+          onClick={() => router.push(`${ROUTES_CONFIG.lists}`)}
+        >
+          Cancel
+        </Button>
       </Stack>
     </Fragment>
   )
