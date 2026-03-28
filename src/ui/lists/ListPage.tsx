@@ -3,7 +3,7 @@
 import {Fragment, useMemo} from 'react'
 import {Card, Stack} from '@mui/material'
 import AppTabs, {TabItem} from '@/components/AppTabs'
-import TasksTab from '@/ui/tasks/TasksTab'
+import TasksForm from '@/ui/tasks/TasksForm'
 import ListForm from '@/ui/lists/ListForm'
 import CategoryForm from '@/ui/categories/CategoryForm'
 import Typography from '@mui/material/Typography'
@@ -32,7 +32,7 @@ export default function ListPage({id}: Props) {
         children: <ListForm id={id} />
       },
       {id: 1, label: 'Categories', children: <CategoryForm listId={id} />},
-      {id: 2, label: 'Tasks', children: <TasksTab listId={id} />}
+      {id: 2, label: 'Tasks', children: <TasksForm listId={id} />}
     ]
   }, [id])
 

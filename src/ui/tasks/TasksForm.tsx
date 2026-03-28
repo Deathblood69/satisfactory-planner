@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {Fragment, useState} from 'react'
-import {TaskList} from '@/ui/tasks/array/TaskList'
+import {TaskList} from '@/ui/tasks/TaskList'
 import {Stack} from '@mui/material'
 import CategoriesList from '@/ui/categories/CategoriesList'
 import {CategoryDTO} from '@/dto/categories/CategoryDTO'
@@ -14,7 +14,7 @@ interface Props {
   listId: string
 }
 
-export default function TasksTab({listId}: Props) {
+export default function TasksForm({listId}: Props) {
   const {data: list} = useQuery({
     queryKey: [API_CONFIG.lists, listId],
     queryFn: () => getEntityById<ListDTO>(API_CONFIG.lists, listId)

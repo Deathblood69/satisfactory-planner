@@ -9,7 +9,7 @@ import {TaskDTO} from '@/dto/TaskDTO'
 import {CategoryDTO} from '@/dto/categories/CategoryDTO'
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import getAllEntities from '@/queries/getAllEntities'
-import TaskItem from '@/ui/tasks/array/TaskItem'
+import TaskItem from '@/ui/tasks/TaskItem'
 import {API_CONFIG} from '@/config/api.config'
 
 const API_TASKS = 'http://localhost:3001/tasks'
