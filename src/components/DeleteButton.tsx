@@ -1,13 +1,27 @@
 import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
 import {Delete} from '@mui/icons-material'
+import Button from '@mui/material/Button'
 
-export default function DeleteButton() {
+interface Props {
+  square?: boolean
+}
+
+export default function DeleteButton({square}: Props) {
   return (
     <Tooltip title={'Delete'}>
-      <IconButton>
-        <Delete />
-      </IconButton>
+      {square ? (
+        <Button
+          type={'submit'}
+          variant="outlined"
+        >
+          <Delete />
+        </Button>
+      ) : (
+        <IconButton>
+          <Delete />
+        </IconButton>
+      )}
     </Tooltip>
   )
 }

@@ -20,7 +20,7 @@ interface Props {
   id?: string
 }
 
-export default function ListTab({id}: Props) {
+export default function ListForm({id}: Props) {
   const router = useRouter()
 
   async function handleSave(dto: ListCreateDTO) {

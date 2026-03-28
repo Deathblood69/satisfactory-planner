@@ -8,7 +8,7 @@ import {FilterList, Launch} from '@mui/icons-material'
 import DeleteButton from '@/components/DeleteButton'
 import NewButton from '@/components/NewButton'
 import {ROUTES_CONFIG} from '@/config/routes.config'
-import ClickableLinkChips from '@/components/ClickableLinkChips'
+import AppChip from '@/components/AppChip'
 import {useRouter} from 'next/navigation'
 import {ListService} from '@/services/ListService'
 import useForm from '@/hooks/useForm'
@@ -46,9 +46,10 @@ export default function useListTable() {
         disablePadding: false,
         label: 'Private',
         render: (id, value) => (
-          <ClickableLinkChips
+          <AppChip
             id={'private'}
             label={value[id] ? 'True' : 'False'}
+            clickable={true}
           />
         )
       }

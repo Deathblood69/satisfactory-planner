@@ -4,13 +4,14 @@ import {Fragment, useMemo} from 'react'
 import {Card, Stack} from '@mui/material'
 import AppTabs, {TabItem} from '@/components/AppTabs'
 import TasksTab from '@/ui/tasks/TasksTab'
-import ListTab from '@/ui/lists/ListTab'
-import CategoryTab from '@/ui/categories/CategoryTab'
+import ListForm from '@/ui/lists/ListForm'
+import CategoryForm from '@/ui/categories/CategoryForm'
 import Typography from '@mui/material/Typography'
 import {useQuery} from '@tanstack/react-query'
 import {API_CONFIG} from '@/config/api.config'
 import getEntityById from '@/queries/getEntityById'
 import {ListDTO} from '@/dto/lists/ListDTO'
+import AppChip from '@/components/AppChip'
 
 interface Props {
   id: string
@@ -28,9 +29,9 @@ export default function ListPage({id}: Props) {
       {
         id: 0,
         label: 'Information',
-        children: <ListTab id={id} />
+        children: <ListForm id={id} />
       },
-      {id: 1, label: 'Categories', children: <CategoryTab listId={id} />},
+      {id: 1, label: 'Categories', children: <CategoryForm listId={id} />},
       {id: 2, label: 'Tasks', children: <TasksTab listId={id} />}
     ]
   }, [id])
@@ -40,16 +41,27 @@ export default function ListPage({id}: Props) {
       <Stack
         direction="column"
         spacing={2}
-        justifyContent={'center'}
         component={Card}
         sx={{p: 2}}
       >
-        <Typography
-          variant="h5"
-          gutterBottom
+        <Stack
+          direction="row"
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          spacing={2}
         >
-          {list?.name}
-        </Typography>
+          <Typography
+            variant="h5"
+            gutterBottom
+          >
+            {list?.name}
+          </Typography>
+          <AppChip
+            id={'private'}
+            label={list?.private ? 'Private' : 'Public'}
+            clickable={false}
+          />
+        </Stack>
 
         <AppTabs items={items} />
       </Stack>

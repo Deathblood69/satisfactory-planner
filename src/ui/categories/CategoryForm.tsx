@@ -1,6 +1,6 @@
 'use client'
 
-import {Card, Stack} from '@mui/material'
+import {Stack} from '@mui/material'
 import * as React from 'react'
 import {useMemo, useState} from 'react'
 import {API_CONFIG} from '@/config/api.config'
@@ -11,13 +11,14 @@ import {CategoryService} from '@/services/CategoryService'
 import CategoryFields from '@/ui/categories/CategoryFields'
 import CategoriesList from '@/ui/categories/CategoriesList'
 import AddButton from '@/components/AddButton'
+import DeleteButton from '@/components/DeleteButton'
 
 interface Props {
   id?: string
   listId: string
 }
 
-export default function CategoryTab({id, listId}: Props) {
+export default function CategoryForm({id, listId}: Props) {
   const [selectedCategory, setCategory] = useState<CategoryDTO>()
 
   const defaultForm: CategoryCreateDTO = useMemo(() => {
@@ -43,26 +44,25 @@ export default function CategoryTab({id, listId}: Props) {
   }
 
   return (
-    <Card sx={{p: 2}}>
-      <FormProvider<CategoryCreateDTO, CategoryDTO>
-        entity={API_CONFIG.lists}
-        defaultForm={defaultForm}
-        onSave={handleSave}
+    <FormProvider<CategoryCreateDTO, CategoryDTO>
+      entity={API_CONFIG.categories}
+      defaultForm={defaultForm}
+      onSave={handleSave}
+    >
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{mb: 2}}
       >
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{mb: 2}}
-        >
-          <CategoryFields />
-          <AddButton />
-        </Stack>
-        <CategoriesList
-          idList={listId}
-          selectedCategory={selectedCategory}
-          handleCategoryChange={handleCategoryChange}
-        />
-      </FormProvider>
-    </Card>
+        <CategoryFields />
+        <AddButton />
+        <DeleteButton square={true} />
+      </Stack>
+      <CategoriesList
+        idList={listId}
+        selectedCategory={selectedCategory}
+        handleCategoryChange={handleCategoryChange}
+      />
+    </FormProvider>
   )
 }
