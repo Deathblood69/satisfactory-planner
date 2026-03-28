@@ -10,10 +10,10 @@ import Checkbox from '@mui/material/Checkbox'
 import {visuallyHidden} from '@mui/utils'
 
 interface HeadCell<T> {
-  disablePadding: boolean
+  disablePadding?: boolean
   id: keyof T
   label: string
-  numeric: boolean
+  numeric?: boolean
 }
 
 interface EnhancedTableHeadProps<T extends {id: string}> {

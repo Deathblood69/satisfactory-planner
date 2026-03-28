@@ -15,6 +15,7 @@ import useForm from '@/hooks/useForm'
 import NewButton from '@/components/NewButton'
 import {ROUTES_CONFIG} from '@/config/routes.config'
 import {useRouter} from 'next/navigation'
+import ClickableLinkChips from '@/components/ClickableLinkChips'
 
 const headCells: readonly HeadCell<ListDTO>[] = [
   {
@@ -23,7 +24,18 @@ const headCells: readonly HeadCell<ListDTO>[] = [
     disablePadding: true,
     label: 'Name'
   },
-  {id: 'private', numeric: false, disablePadding: false, label: 'Private'}
+  {
+    id: 'private',
+    numeric: false,
+    disablePadding: false,
+    label: 'Private',
+    render: (id, value) => (
+      <ClickableLinkChips
+        id={'private'}
+        label={value[id] ? 'True' : 'False'}
+      />
+    )
+  }
 ]
 
 type Ids = readonly string[] | undefined

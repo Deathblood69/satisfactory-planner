@@ -15,10 +15,11 @@ import {EnhancedTableToolbar} from '@/components/EnhancedTableToolbar'
 import {EnhancedTableHead} from '@/components/EnhancedTableHead'
 
 export interface HeadCell<T> {
-  disablePadding: boolean
+  disablePadding?: boolean
   id: keyof T
   label: string
-  numeric: boolean
+  numeric?: boolean
+  render?: (id: keyof T, value: T) => ReactNode
 }
 
 export interface Action {
@@ -155,19 +156,17 @@ export default function EnhancedTable<T extends {id: string}>({
                 const isItemSelected = selecting?.selected.includes(row.id)
                 return (
                   <TableRow
-                    hover
-                    onClick={(event) => handleSelect(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{cursor: 'pointer'}}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
+                        onClick={(event) => handleSelect(event, row.id)}
                       />
                     </TableCell>
                     {headCells.map((headCell) => (
@@ -176,7 +175,9 @@ export default function EnhancedTable<T extends {id: string}>({
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                       >
-                        {String(row[headCell.id])}
+                        {headCell.render
+                          ? headCell.render(headCell.id, row)
+                          : String(row[headCell.id])}
                       </TableCell>
                     ))}
                   </TableRow>
