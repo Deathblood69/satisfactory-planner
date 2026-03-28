@@ -13,10 +13,13 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
 
-const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+interface Props {
+  pages: {label: string; url: string}[]
+  settings: {label: string; url: string}[]
+  onClick: (value: string) => void
+}
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({pages, settings, onClick}: Props) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -35,6 +38,11 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
+  }
+
+  function handleClickMenu(value: string) {
+    handleCloseNavMenu()
+    onClick(value)
   }
 
   return (
@@ -89,10 +97,12 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}
+                  key={page.url}
+                  onClick={() => handleClickMenu(page.url)}
                 >
-                  <Typography sx={{textAlign: 'center'}}>{page}</Typography>
+                  <Typography sx={{textAlign: 'center'}}>
+                    {page.label}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -119,11 +129,11 @@ function ResponsiveAppBar() {
           <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.url}
+                onClick={() => handleClickMenu(page.url)}
                 sx={{my: 2, color: 'white', display: 'block'}}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
@@ -157,10 +167,12 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem
-                  key={setting}
-                  onClick={handleCloseUserMenu}
+                  key={setting.url}
+                  onClick={() => handleClickMenu(setting.url)}
                 >
-                  <Typography sx={{textAlign: 'center'}}>{setting}</Typography>
+                  <Typography sx={{textAlign: 'center'}}>
+                    {setting.label}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
